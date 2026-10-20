@@ -35,7 +35,6 @@ import {
   getStoredSettings,
   getStoredCategories 
 } from './utils/adminStorage';
-import { getArticleCanonicalUrl, SITE_URL } from './utils/seoConfig';
 import { Sparkles, SearchX } from 'lucide-react';
 
 export default function App() {
@@ -105,42 +104,6 @@ export default function App() {
   const handleSelectArticleFromNav = (articleId: string) => {
     setSelectedArticleId(articleId);
   };
-
-  // Deep linking and Google Search Console URL inspection support (?article=... or ?service=...)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const articleParam = params.get('article');
-      const serviceParam = params.get('service');
-      const sectionParam = params.get('section');
-
-      if (articleParam) {
-        setSelectedArticleId(articleParam);
-        const article = allArticles.find(a => a.id === articleParam);
-        if (article) {
-          document.title = `${article.title} | رقيب للبرمجة والتسويق`;
-          setTimeout(() => {
-            const el = document.getElementById('articles-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 350);
-        }
-      } else if (serviceParam) {
-        const service = allServices.find(s => s.id === serviceParam);
-        if (service) {
-          setSelectedServiceForDetails(service);
-          document.title = `${service.title} | رقيب للبرمجة والتسويق`;
-        }
-      } else if (sectionParam) {
-        setTimeout(() => {
-          const el = document.getElementById(sectionParam);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 350);
-      }
-    } catch {
-      // ignore
-    }
-  }, [allArticles, allServices]);
 
   return (
     <div 

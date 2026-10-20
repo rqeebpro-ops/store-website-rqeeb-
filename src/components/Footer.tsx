@@ -44,12 +44,8 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Col 1: Brand info (2 cols on lg) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden p-0.5 bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center shadow-md bg-white shrink-0">
-                <img 
-                  src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
-                  alt="شعار رقيب" 
-                  className="w-full h-full object-contain rounded-[9px]"
-                />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-xl text-white shadow-md">
+                R
               </div>
               <div>
                 <span className="text-xl font-black text-white">{t.brandName}</span>

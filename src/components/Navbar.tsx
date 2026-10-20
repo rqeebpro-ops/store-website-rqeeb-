@@ -225,13 +225,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-3 group text-right cursor-pointer select-none bg-transparent border-none p-0 focus:outline-none"
               title={isAr ? 'شعار منصة رقيب الرسمية' : 'Raqeeb Brand Logo'}
             >
-              {/* Official Brand Logo */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden p-0.5 bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition shrink-0 bg-white flex items-center justify-center">
-                <img 
-                  src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
-                  alt="شعار رقيب" 
-                  className="w-full h-full object-contain rounded-[9px]"
-                />
+              {/* R Blue Logo */}
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] p-0.5 shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition shrink-0">
+                <div className="w-full h-full bg-[#0A2351] rounded-[10px] flex items-center justify-center font-black text-xl sm:text-2xl text-white tracking-wider">
+                  R
+                </div>
               </div>
               <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2">
@@ -446,12 +444,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Drawer Header */}
             <div className="p-4 sm:p-5 bg-[#071838] border-b border-blue-900/40 flex items-center justify-between sticky top-0 z-20">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl overflow-hidden p-0.5 bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center shrink-0 bg-white">
-                  <img 
-                    src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
-                    alt="شعار رقيب" 
-                    className="w-full h-full object-contain rounded-[9px]"
-                  />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-xl text-white">
+                  R
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white">{t.brandName}</h3>

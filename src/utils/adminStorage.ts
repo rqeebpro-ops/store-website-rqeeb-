@@ -32,7 +32,7 @@ export const INITIAL_APKS: ApkItem[] = [
     version: 'v2.2',
     size: '14.8 MB',
     downloadUrl: APK_DOWNLOAD_URL,
-    icon: '/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png',
+    icon: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?w=300&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?w=600&q=80',
       'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80'
@@ -268,15 +268,7 @@ export const getStoredApks = (): ApkItem[] => {
       return INITIAL_APKS;
     }
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed.map((item: ApkItem) => {
-        if (item.id === 'raqeeb-pro-app') {
-          return { ...item, icon: '/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png' };
-        }
-        return item;
-      });
-    }
-    return INITIAL_APKS;
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_APKS;
   } catch {
     return INITIAL_APKS;
   }

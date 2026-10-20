@@ -86,12 +86,8 @@ export const AppDownloadSection: React.FC<AppDownloadSectionProps> = ({
               
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#DBEAFE] pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl overflow-hidden bg-white border border-[#DBEAFE] shadow-sm p-1 flex items-center justify-center shrink-0">
-                    <img 
-                      src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
-                      alt="تطبيق رقيب" 
-                      className="w-full h-full object-contain rounded-xl"
-                    />
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#22C55E]">
+                    <Smartphone className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="text-base sm:text-lg font-black text-[#0F172A] flex items-center gap-2">
