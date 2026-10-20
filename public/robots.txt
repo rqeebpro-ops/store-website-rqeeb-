@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Google Search Console Sitemap for rqeebpro.store
+Sitemap: https://rqeebpro.store/sitemap.xml

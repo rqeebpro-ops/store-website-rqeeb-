@@ -1,0 +1,6 @@
+{
+  "name": "رقيب للبرمجة والتسويق",
+  "description": "منصة رقيب الرائدة لخدمات البرمجة والحلول التقنية وفك الشفرات واسترجاع الحسابات والبيانات والتسويق الرقمي المتكامل",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

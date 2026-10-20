@@ -1,0 +1,773 @@
+/*
+ * =========================================================================
+ * قالب موقع رقيب للبرمجة والتسويق لمنصة بلوجر (Blogger Template Code)
+ * رقم التواصل: 785502919
+ * =========================================================================
+ * طريقة التركيب في بلوجر:
+ * 1. انسخ الكود البرمجي أدناه بالكامل (Ctrl+A ثم Ctrl+C).
+ * 2. ادخل إلى لوحة تحكم بلوجر (Blogger Dashboard).
+ * 3. من القائمة الجانبية اختر: "المظهر" (Theme).
+ * 4. اضغط على السهم بجانب زر "تخصيص" (Customize) واختر "تعديل HTML" (Edit HTML).
+ * 5. حدد الكود القديم كاملاً واستبدله بهذا الكود ثم اضغط زر "حفظ" (Save).
+ * =========================================================================
+ */
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' dir='rtl' lang='ar' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <title>رقيب للبرمجة والتسويق | Raqeeb Tech &amp; Marketing</title>
+  <meta content='منصة رقيب الرائدة لخدمات البرمجة والحلول التقنية وفك الشفرات واسترجاع الحسابات والبيانات والتسويق الرقمي المتكامل - هاتف 785502919' name='description'/>
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&amp;family=Inter:wght@400;600;700;800&amp;display=swap' rel='stylesheet'/>
+  
+  <b:skin><![CDATA[
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #020617;
+    color: #f1f5f9;
+    font-family: 'Cairo', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body.lang-en {
+    font-family: 'Inter', sans-serif;
+    direction: ltr;
+    text-align: left;
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font-family: inherit; }
+  .rq-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  
+  .rq-ribbon {
+    background: linear-gradient(90deg, #083344, #0f172a, #1e1b4b);
+    border-bottom: 1px solid #164e63;
+    padding: 8px 0;
+    font-size: 13px;
+  }
+  .rq-ribbon-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .rq-badge {
+    background: rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .rq-header {
+    background: rgba(2, 6, 23, 0.95);
+    border-bottom: 1px solid #1e293b;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .rq-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
+  }
+  .rq-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .rq-logo-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+  }
+  .rq-logo-text h1 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  .rq-logo-text span {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  
+  .rq-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-lang {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #22d3ee;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-lang:hover { background: #1e293b; color: #fff; }
+  .btn-phone {
+    background: #0f172a;
+    border: 1px solid #0891b2;
+    color: #22d3ee;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #06b6d4, #2563eb);
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    transition: 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.95; transform: scale(1.02); }
+  .btn-whatsapp {
+    background: #16a34a;
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+  }
+  .btn-whatsapp:hover { background: #15803d; }
+  
+  .rq-hero {
+    padding: 60px 0 40px;
+    background: radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.15), transparent 70%);
+    text-align: center;
+  }
+  .rq-hero h2 {
+    font-size: 38px;
+    font-weight: 900;
+    margin: 15px 0;
+    color: #fff;
+  }
+  .rq-hero h2 span {
+    background: linear-gradient(90deg, #22d3ee, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rq-hero p {
+    font-size: 16px;
+    color: #cbd5e1;
+    max-width: 800px;
+    margin: 0 auto 30px;
+  }
+  .rq-search-bar {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    display: flex;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 6px;
+  }
+  .rq-search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px 16px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+  }
+  .rq-hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  
+  .rq-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 50px;
+  }
+  .rq-stat-box {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+  }
+  .rq-stat-box .num { font-size: 28px; font-weight: 900; color: #22d3ee; }
+  .rq-stat-box .lbl { font-size: 13px; color: #94a3b8; font-weight: 600; margin-top: 4px; }
+  
+  .rq-categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .cat-btn {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    color: #cbd5e1;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .cat-btn.active, .cat-btn:hover {
+    background: linear-gradient(135deg, #06b6d4, #2563eb);
+    color: #fff;
+    border-color: transparent;
+  }
+  
+  .rq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin-bottom: 60px;
+  }
+  .rq-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s;
+  }
+  .rq-card:hover {
+    border-color: #0891b2;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15);
+  }
+  .rq-card-cat {
+    display: inline-block;
+    font-size: 11px;
+    color: #22d3ee;
+    background: rgba(6, 182, 212, 0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .rq-card h3 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .rq-card p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .rq-card-specs {
+    border-top: 1px solid #1e293b;
+    border-bottom: 1px solid #1e293b;
+    padding: 10px 0;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+  }
+  .rq-card-btns {
+    display: flex;
+    gap: 10px;
+  }
+  .rq-card-btns button, .rq-card-btns a {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .rq-section-title {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .rq-section-title h2 { font-size: 30px; color: #fff; font-weight: 900; }
+  .rq-section-title p { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+  
+  .rq-contact-bar {
+    background: linear-gradient(135deg, #0c4a6e, #1e1b4b);
+    border: 1px solid #0284c7;
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .rq-contact-bar h3 { font-size: 26px; color: #fff; margin-bottom: 12px; }
+  .rq-contact-bar .big-phone {
+    font-size: 36px;
+    font-weight: 900;
+    color: #38bdf8;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin: 15px 0;
+  }
+  
+  .rq-footer {
+    background: #020617;
+    border-top: 1px solid #1e293b;
+    padding: 40px 0 20px;
+    font-size: 13px;
+    color: #64748b;
+    text-align: center;
+  }
+  .rq-footer p { margin-top: 10px; }
+  
+  .rq-float-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 999;
+    background: #16a34a;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(22, 163, 74, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .rq-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .rq-modal.active { display: flex; }
+  .rq-modal-content {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    text-align: right;
+  }
+  .rq-modal-close {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #1e293b;
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  ]]></b:skin>
+</head>
+<body>
+  
+  <!-- Ribbon -->
+  <div class='rq-ribbon'>
+    <div class='rq-container rq-ribbon-inner'>
+      <div>
+        <span class='rq-badge'>رَقِـيـب PRO TECH</span>
+        <span id='ribbon-txt' style='margin-right: 8px;'>المركز المعتمد الأول لخدمات البرمجة، استرجاع البيانات والتسويق</span>
+      </div>
+      <div>
+        <strong id='phone-txt'>هاتف / واتساب: 785502919</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class='rq-header'>
+    <div class='rq-container rq-nav-inner'>
+      <div class='rq-logo'>
+        <div class='rq-logo-icon'>🛡️</div>
+        <div class='rq-logo-text'>
+          <h1 id='nav-title'>رَقِـيـب للبرمجة والتسويق</h1>
+          <span id='nav-sub'>حلول تقنية • فك شفرات • استرجاع بيانات • تسويق</span>
+        </div>
+      </div>
+      
+      <div class='rq-header-actions'>
+        <button class='btn-lang' id='btn-toggle-lang' onclick='toggleLanguage()'>English 🇬🇧</button>
+        <a class='btn-phone' href='tel:785502919' id='nav-call-btn'>📞 785502919</a>
+        <button class='btn-primary' id='nav-order-btn' onclick='openOrderModal()'>طلب خدمة</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class='rq-hero'>
+    <div class='rq-container'>
+      <span class='rq-badge' id='hero-badge'>منصة تقنية وتسويقية متكاملة</span>
+      <h2 id='hero-title'>رَقِـيـب <span>للبرمجة والتسويق</span></h2>
+      <p id='hero-desc'>فك شفرات الهواتف والشبكات، تخطي إقفال الشاشة و FRP، استرجاع الحسابات المخترقة، استرداد البيانات والملفات المحذوفة من الأجهزة التالفة، تطوير المواقع والتطبيقات، وإدارة الحملات الإعلانية الممولة.</p>
+      
+      <div class='rq-search-bar'>
+        <input id='service-search' onkeyup='filterServices()' placeholder='ابحث عن الخدمة المطلوبة...' type='text'/>
+      </div>
+
+      <div class='rq-hero-buttons'>
+        <a class='btn-whatsapp' href='https://wa.me/967785502919' id='hero-wa-btn' target='_blank'>💬 محادثة واتساب فورية</a>
+        <a class='btn-phone' href='tel:785502919' id='hero-call-btn'>📞 اتصال مباشر: 785502919</a>
+        <button class='btn-primary' id='hero-req-btn' onclick='openOrderModal()'>⚡ حجز استشارة أو فحص</button>
+      </div>
+
+      <div class='rq-stats'>
+        <div class='rq-stat-box'>
+          <div class='num'>+12,800</div>
+          <div class='lbl' id='stat-1'>جهاز وحساب تم إنجازه بنجاح</div>
+        </div>
+        <div class='rq-stat-box'>
+          <div class='num'>99.4%</div>
+          <div class='lbl' id='stat-2'>نسبة النجاح ورضا العملاء</div>
+        </div>
+        <div class='rq-stat-box'>
+          <div class='num'>+650</div>
+          <div class='lbl' id='stat-3'>حملة تسويقية ناجحة</div>
+        </div>
+        <div class='rq-stat-box'>
+          <div class='num'>24/7</div>
+          <div class='lbl' id='stat-4'>جاهزية واستجابة مباشرة</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class='rq-container'>
+    <div class='rq-section-title'>
+      <h2 id='sec-serv-title'>دليل الخدمات الشامل</h2>
+      <p id='sec-serv-sub'>اختر التصنيف لاستعراض الخدمات المتوفرة مع التفاصيل والضمان</p>
+    </div>
+
+    <div class='rq-categories'>
+      <button class='cat-btn active' id='cat-all' onclick='selectCategory("all")'>جميع الخدمات</button>
+      <button class='cat-btn' id='cat-unlocking' onclick='selectCategory("unlocking")'>فك الشفرات والأجهزة</button>
+      <button class='cat-btn' id='cat-screen' onclick='selectCategory("screen_locks")'>فك الإقفال و FRP</button>
+      <button class='cat-btn' id='cat-account' onclick='selectCategory("account_recovery")'>استرجاع الحسابات</button>
+      <button class='cat-btn' id='cat-data' onclick='selectCategory("data_recovery")'>استرداد البيانات والملفات</button>
+      <button class='cat-btn' id='cat-programming' onclick='selectCategory("programming")'>البرمجة والتطوير</button>
+      <button class='cat-btn' id='cat-marketing' onclick='selectCategory("marketing")'>التسويق الرقمي الممُول</button>
+    </div>
+
+    <div class='rq-grid' id='services-container'></div>
+  </section>
+
+  <!-- Contact Banner -->
+  <section class='rq-container'>
+    <div class='rq-contact-bar'>
+      <h3 id='contact-bar-title'>هل لديك استفسار أو مشكلة تقنية طارئة؟</h3>
+      <p id='contact-bar-sub'>تواصل مع مهندس رقيب مباشرة عبر الهاتف أو الواتساب:</p>
+      <div class='big-phone'><a href='tel:785502919'>785502919</a></div>
+      <br/>
+      <a class='btn-whatsapp' href='https://wa.me/967785502919' target='_blank'>💬 ابدأ محادثة واتساب الآن</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class='rq-footer'>
+    <div class='rq-container'>
+      <p><strong>رَقِـيـب للبرمجة والتسويق | RAQEEB TECH &amp; MARKETING</strong></p>
+      <p>رقم الاتصال المباشر: 785502919 • سرية تامة 100%</p>
+      <p>جميع الحقوق محفوظة © 2026</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a class='rq-float-btn' href='https://wa.me/967785502919' target='_blank'>
+    <span>💬</span>
+    <span id='float-btn-txt'>واتساب 785502919</span>
+  </a>
+
+  <!-- Order Modal -->
+  <div class='rq-modal' id='order-modal'>
+    <div class='rq-modal-content'>
+      <button class='rq-modal-close' onclick='closeOrderModal()'>✕</button>
+      <h3 id='modal-title' style='margin-bottom: 15px;'>طلب خدمة جديدة</h3>
+      <form onsubmit='submitOrder(event)'>
+        <div style='margin-bottom: 12px;'>
+          <label id='lbl-name' style='display:block; font-size:12px; margin-bottom:4px;'>الاسم الكريم:</label>
+          <input id='in-name' required='required' style='width:100%; padding:10px; background:#020617; border:1px solid #334155; border-radius:8px; color:#fff;' type='text'/>
+        </div>
+        <div style='margin-bottom: 12px;'>
+          <label id='lbl-service' style='display:block; font-size:12px; margin-bottom:4px;'>الخدمة المطلوبة:</label>
+          <select id='in-service' style='width:100%; padding:10px; background:#020617; border:1px solid #334155; border-radius:8px; color:#fff;'>
+            <option>فك شفرات الشبكات (Carrier Unlock)</option>
+            <option>فك قفل جوجل FRP</option>
+            <option>استرجاع الحسابات المسروقة والمخترقة</option>
+            <option>استرداد الصور والملفات المحذوفة</option>
+            <option>برمجة موقع أو تطبيق ويب</option>
+            <option>إطلاق حملة إعلانية ممولة</option>
+          </select>
+        </div>
+        <div style='margin-bottom: 16px;'>
+          <label id='lbl-details' style='display:block; font-size:12px; margin-bottom:4px;'>تفاصيل الجهاز أو الحساب:</label>
+          <textarea id='in-details' rows='3' style='width:100%; padding:10px; background:#020617; border:1px solid #334155; border-radius:8px; color:#fff;'></textarea>
+        </div>
+        <button class='btn-whatsapp' style='width:100%; justify-content:center;' type='submit'>إرسال عبر واتساب (785502919)</button>
+      </form>
+    </div>
+  </div>
+
+  <script type='text/javascript'>
+  //<![CDATA[
+  var currentLang = 'ar';
+  var currentCategory = 'all';
+
+  var servicesData = [
+    {
+      id: 'unlock-1',
+      category: 'unlocking',
+      titleAr: 'فك شفرات الشبكة الدولية (Carrier Unlock)',
+      titleEn: 'Carrier Network Unlock',
+      descAr: 'فك شفرة كافة الهواتف لتعمل على جميع الشبكات المحلية والدولية مع تفعيل الفورجي والفايف جي.',
+      descEn: 'Factory unlock for all smartphones to operate on any network globally with 4G/5G enabled.',
+      timeAr: '15 - 60 دقيقة',
+      timeEn: '15 - 60 mins',
+      rateAr: '99.5% نجاح',
+      rateEn: '99.5% Success'
+    },
+    {
+      id: 'frp-2',
+      category: 'screen_locks',
+      titleAr: 'تخطي وفك قفل حساب جوجل (FRP Bypass)',
+      titleEn: 'Google Account (FRP) Bypass',
+      descAr: 'إزالة قفل التحقق بعد الفورمات لأجهزة سامسونج، شاومي، هواوي، وأوبو بأمان وسرعة.',
+      descEn: 'Safely remove Google account lock verification across Samsung, Xiaomi, and Android devices.',
+      timeAr: '10 - 30 دقيقة',
+      timeEn: '10 - 30 mins',
+      rateAr: '100% دائم',
+      rateEn: '100% Permanent'
+    },
+    {
+      id: 'account-3',
+      category: 'account_recovery',
+      titleAr: 'استرجاع الحسابات المخترقة والمسروقة',
+      titleEn: 'Hacked Social Account Recovery',
+      descAr: 'استعادة حسابات فيسبوك، انستغرام، تيك توك، وسناب شات وتخطي المصادقة الثنائية 2FA.',
+      descEn: 'Restore hacked Facebook, Instagram, TikTok, and Snapchat accounts and remove hacker 2FA.',
+      timeAr: '2 - 24 ساعة',
+      timeEn: '2 - 24 hours',
+      rateAr: '96% استعادة',
+      rateEn: '96% Restored'
+    },
+    {
+      id: 'data-4',
+      category: 'data_recovery',
+      titleAr: 'استرجاع الصور والملفات ومحادثات الواتساب',
+      titleEn: 'Deleted Photo & Data Recovery',
+      descAr: 'فحص قطاعي عميق واستعادة الصور العائلية والمستندات المحذوفة بسرية وأمان تام 100%.',
+      descEn: 'Forensic deep scan to recover deleted family photos, videos, and WhatsApp chats with 100% privacy.',
+      timeAr: '1 - 4 ساعات',
+      timeEn: '1 - 4 hours',
+      rateAr: '95% نجاح',
+      rateEn: '95% Success'
+    },
+    {
+      id: 'prog-5',
+      category: 'programming',
+      titleAr: 'تصميم وبرمجة المواقع والمتاجر الإلكترونية',
+      titleEn: 'Web & E-Commerce Development',
+      descAr: 'بناء مواقع تعريفية ومتاجر سريعة متوافقة مع محركات البحث SEO ولوحات تحكم سهلة.',
+      descEn: 'Custom, high-speed websites, e-commerce stores, and admin dashboards optimized for Google SEO.',
+      timeAr: '3 - 14 يوم',
+      timeEn: '3 - 14 days',
+      rateAr: '100% ضمان',
+      rateEn: '100% Guarantee'
+    },
+    {
+      id: 'ads-6',
+      category: 'marketing',
+      titleAr: 'الحملات الإعلانية الممولة ومضاعفة المبيعات',
+      titleEn: 'High-ROI Paid Advertising Campaigns',
+      descAr: 'إدارة إعلانات فيسبوك، انستغرام، تيك توك، وجوجل بدقة استهداف عالية تضاعف المبيعات.',
+      descEn: 'Laser-targeted paid ads on Meta, Google, and TikTok engineered to maximize ROI and sales.',
+      timeAr: 'مستمر / باقات',
+      timeEn: 'Weekly / Monthly',
+      rateAr: 'مبيعات مضاعفة',
+      rateEn: 'Scaled ROI'
+    }
+  ];
+
+  function renderServices() {
+    var container = document.getElementById('services-container');
+    var query = (document.getElementById('service-search').value || '').toLowerCase().trim();
+    var html = '';
+
+    servicesData.forEach(function(s) {
+      if (currentCategory !== 'all' && s.category !== currentCategory) return;
+      var title = currentLang === 'ar' ? s.titleAr : s.titleEn;
+      var desc = currentLang === 'ar' ? s.descAr : s.descEn;
+      var time = currentLang === 'ar' ? s.timeAr : s.timeEn;
+      var rate = currentLang === 'ar' ? s.rateAr : s.rateEn;
+
+      if (query && title.toLowerCase().indexOf(query) === -1 && desc.toLowerCase().indexOf(query) === -1) {
+        return;
+      }
+
+      var orderTxt = currentLang === 'ar' ? 'طلب الخدمة' : 'Order Now';
+      var waMsg = encodeURIComponent((currentLang === 'ar' ? 'السلام عليكم، أرغب بطلب خدمة: ' : 'Hello, I want to order: ') + title);
+
+      html += '<div class="rq-card">';
+      html += '  <div>';
+      html += '    <span class="rq-card-cat">' + s.category + '</span>';
+      html += '    <h3>' + title + '</h3>';
+      html += '    <p>' + desc + '</p>';
+      html += '    <div class="rq-card-specs">';
+      html += '      <span>⏱️ ' + time + '</span>';
+      html += '      <span>🛡️ ' + rate + '</span>';
+      html += '    </div>';
+      html += '  </div>';
+      html += '  <div class="rq-card-btns">';
+      html += '    <a class="btn-whatsapp" target="_blank" href="https://wa.me/967785502919?text=' + waMsg + '">' + orderTxt + '</a>';
+      html += '  </div>';
+      html += '</div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  function filterServices() { renderServices(); }
+
+  function selectCategory(cat) {
+    currentCategory = cat;
+    var btns = document.querySelectorAll('.cat-btn');
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    var activeBtn = document.getElementById('cat-' + cat) || document.getElementById('cat-all');
+    if (activeBtn) activeBtn.classList.add('active');
+    renderServices();
+  }
+
+  function toggleLanguage() {
+    if (currentLang === 'ar') {
+      currentLang = 'en';
+      document.body.classList.add('lang-en');
+      document.body.dir = 'ltr';
+      document.getElementById('btn-toggle-lang').innerText = 'العربية 🇾🇪';
+      document.getElementById('ribbon-txt').innerText = 'Certified Center for Software, Data Recovery & Marketing';
+      document.getElementById('phone-txt').innerText = 'Call / WhatsApp: 785502919';
+      document.getElementById('nav-title').innerText = 'RAQEEB Tech & Marketing';
+      document.getElementById('nav-sub').innerText = 'Device Unlock • Data Recovery • Software • Ads';
+      document.getElementById('nav-order-btn').innerText = 'Order Service';
+      document.getElementById('hero-badge').innerText = 'Comprehensive Tech & Marketing Platform';
+      document.getElementById('hero-title').innerHTML = 'RAQEEB <span>Tech & Marketing</span>';
+      document.getElementById('hero-desc').innerText = 'Carrier network unlocking, Google FRP bypass, hacked account restoration, deleted data & photo recovery from dead devices, custom software development, and high-ROI digital marketing.';
+      document.getElementById('service-search').placeholder = 'Search for a service...';
+      document.getElementById('hero-wa-btn').innerText = '💬 Instant WhatsApp';
+      document.getElementById('hero-call-btn').innerText = '📞 Direct Call: 785502919';
+      document.getElementById('hero-req-btn').innerText = '⚡ Book Free Consultation';
+      document.getElementById('sec-serv-title').innerText = 'Comprehensive Services Directory';
+      document.getElementById('sec-serv-sub').innerText = 'Select category to inspect available services, timeframes, and guarantees';
+      document.getElementById('cat-all').innerText = 'All Services';
+      document.getElementById('cat-unlocking').innerText = 'Carrier Unlocking';
+      document.getElementById('cat-screen').innerText = 'Screen & FRP Locks';
+      document.getElementById('cat-account').innerText = 'Account Recovery';
+      document.getElementById('cat-data').innerText = 'Data Recovery';
+      document.getElementById('cat-programming').innerText = 'Development';
+      document.getElementById('cat-marketing').innerText = 'Digital Marketing';
+      document.getElementById('float-btn-txt').innerText = 'WhatsApp 785502919';
+    } else {
+      currentLang = 'ar';
+      document.body.classList.remove('lang-en');
+      document.body.dir = 'rtl';
+      document.getElementById('btn-toggle-lang').innerText = 'English 🇬🇧';
+      document.getElementById('ribbon-txt').innerText = 'المركز المعتمد الأول لخدمات البرمجة، استرجاع البيانات والتسويق';
+      document.getElementById('phone-txt').innerText = 'هاتف / واتساب: 785502919';
+      document.getElementById('nav-title').innerText = 'رَقِـيـب للبرمجة والتسويق';
+      document.getElementById('nav-sub').innerText = 'حلول تقنية • فك شفرات • استرجاع بيانات • تسويق';
+      document.getElementById('nav-order-btn').innerText = 'طلب خدمة';
+      document.getElementById('hero-badge').innerText = 'منصة تقنية وتسويقية متكاملة';
+      document.getElementById('hero-title').innerHTML = 'رَقِـيـب <span>للبرمجة والتسويق</span>';
+      document.getElementById('hero-desc').innerText = 'فك شفرات الهواتف والشبكات، تخطي إقفال الشاشة و FRP، استرجاع الحسابات المخترقة، استرداد البيانات والملفات المحذوفة من الأجهزة التالفة، تطوير المواقع والتطبيقات، وإدارة الحملات الإعلانية الممولة.';
+      document.getElementById('service-search').placeholder = 'ابحث عن الخدمة المطلوبة...';
+      document.getElementById('hero-wa-btn').innerText = '💬 محادثة واتساب فورية';
+      document.getElementById('hero-call-btn').innerText = '📞 اتصال مباشر: 785502919';
+      document.getElementById('hero-req-btn').innerText = '⚡ حجز استشارة أو فحص';
+      document.getElementById('sec-serv-title').innerText = 'دليل الخدمات الشامل';
+      document.getElementById('sec-serv-sub').innerText = 'اختر التصنيف لاستعراض الخدمات المتوفرة مع التفاصيل والضمان';
+      document.getElementById('cat-all').innerText = 'جميع الخدمات';
+      document.getElementById('cat-unlocking').innerText = 'فك الشفرات والأجهزة';
+      document.getElementById('cat-screen').innerText = 'فك الإقفال و FRP';
+      document.getElementById('cat-account').innerText = 'استرجاع الحسابات';
+      document.getElementById('cat-data').innerText = 'استرداد البيانات والملفات';
+      document.getElementById('cat-programming').innerText = 'البرمجة والتطوير';
+      document.getElementById('cat-marketing').innerText = 'التسويق الرقمي الممُول';
+      document.getElementById('float-btn-txt').innerText = 'واتساب 785502919';
+    }
+    renderServices();
+  }
+
+  function openOrderModal() { document.getElementById('order-modal').classList.add('active'); }
+  function closeOrderModal() { document.getElementById('order-modal').classList.remove('active'); }
+
+  function submitOrder(e) {
+    e.preventDefault();
+    var name = document.getElementById('in-name').value;
+    var service = document.getElementById('in-service').value;
+    var details = document.getElementById('in-details').value;
+
+    var text = 'طلب خدمة من موقع رقيب:\n' +
+      'الاسم: ' + name + '\n' +
+      'الخدمة: ' + service + '\n' +
+      'التفاصيل: ' + details;
+
+    window.open('https://wa.me/967785502919?text=' + encodeURIComponent(text), '_blank');
+    closeOrderModal();
+  }
+
+  renderServices();
+  //]]>
+  </script>
+
+  <div style='display:none;'>
+    <b:section id='main' showaddelement='yes'/>
+  </div>
+
+</body>
+</html>
