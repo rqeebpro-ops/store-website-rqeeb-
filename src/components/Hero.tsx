@@ -35,6 +35,10 @@ interface HeroProps {
   onOpenDownloadModal?: () => void;
   onOpenPinModal?: () => void;
   isAppUnlocked?: boolean;
+  heroBadgeText?: string;
+  statsOrdersCompleted?: string;
+  statsSuccessRate?: string;
+  statsSupportAvailability?: string;
 }
 
 export const Hero: React.FC<HeroProps> = ({
@@ -46,7 +50,11 @@ export const Hero: React.FC<HeroProps> = ({
   lang,
   onOpenDownloadModal,
   onOpenPinModal,
-  isAppUnlocked = false
+  isAppUnlocked = false,
+  heroBadgeText,
+  statsOrdersCompleted,
+  statsSuccessRate,
+  statsSupportAvailability
 }) => {
   const t = UI_TRANSLATIONS[lang];
   const isAr = lang === 'ar';
@@ -74,9 +82,9 @@ export const Hero: React.FC<HeroProps> = ({
   ];
 
   const stats = [
-    { value: '+9,850', label: t.stat1 },
-    { value: '99.5%', label: t.stat2 },
-    { value: '24/7', label: t.stat3 },
+    { value: (isAr && statsOrdersCompleted) ? statsOrdersCompleted : '+9,850', label: t.stat1 },
+    { value: (isAr && statsSuccessRate) ? statsSuccessRate : '99.5%', label: t.stat2 },
+    { value: (isAr && statsSupportAvailability) ? statsSupportAvailability : '24/7', label: t.stat3 },
     { value: '100%', label: t.stat4 },
   ];
 
@@ -101,7 +109,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2563EB]"></span>
               </span>
-              <span className="truncate">{t.heroBadge}</span>
+              <span className="truncate">{heroBadgeText && isAr ? heroBadgeText : t.heroBadge}</span>
               <span className="text-slate-300 hidden xs:inline">•</span>
               <span className="text-[#64748B] font-mono hidden xs:inline" dir="ltr">{phone}</span>
             </div>

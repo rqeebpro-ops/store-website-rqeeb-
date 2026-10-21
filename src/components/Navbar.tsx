@@ -47,6 +47,8 @@ interface NavbarProps {
   isAdminLoggedIn?: boolean;
   onOpenAdminDashboard?: () => void;
   categoriesList?: CategoryOrderItem[];
+  appName?: string;
+  appSlogan?: string;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -62,7 +64,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAdminLogin,
   isAdminLoggedIn = false,
   onOpenAdminDashboard,
-  categoriesList
+  categoriesList,
+  appName,
+  appSlogan
 }) => {
   const t = UI_TRANSLATIONS[lang];
   const isAr = lang === 'ar';
@@ -149,10 +153,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0A2351] text-white shadow-xl border-b border-blue-900/50 transition-all select-none">
+    <header 
+      className="sticky top-0 z-50 text-white shadow-xl border-b border-blue-900/50 transition-colors select-none"
+      style={{ backgroundColor: 'var(--header-footer-bg, #0A2351)' }}
+    >
       
       {/* Top Mini Contact Ribbon */}
-      <div className="bg-[#071838] border-b border-blue-900/40 text-xs py-1.5 px-3 sm:px-4">
+      <div 
+        className="border-b border-blue-900/40 text-xs py-1.5 px-3 sm:px-4"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)' }}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 text-blue-100/90">
           
           {/* Guarantee / Title Badge */}
@@ -227,21 +237,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               {/* R Blue Logo */}
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] p-0.5 shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition shrink-0">
-                <div className="w-full h-full bg-[#0A2351] rounded-[10px] flex items-center justify-center font-black text-xl sm:text-2xl text-white tracking-wider">
+                <div 
+                  className="w-full h-full rounded-[10px] flex items-center justify-center font-black text-xl sm:text-2xl text-white tracking-wider"
+                  style={{ backgroundColor: 'var(--header-footer-bg, #0A2351)' }}
+                >
                   R
                 </div>
               </div>
               <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className="text-lg sm:text-2xl font-black tracking-tight text-white group-hover:text-blue-200 transition truncate">
-                    {t.brandName}
+                    {appName && isAr ? appName : t.brandName}
                   </span>
                   <span className="text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/30 shrink-0">
                     {t.brandBadge}
                   </span>
                 </div>
                 <span className="text-[11px] sm:text-xs text-blue-200/80 font-medium truncate hidden xs:block">
-                  {t.brandSub}
+                  {appSlogan && isAr ? appSlogan : t.brandSub}
                 </span>
               </div>
             </button>

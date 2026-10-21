@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { CategoriesFilter } from './components/CategoriesFilter';
@@ -33,7 +33,9 @@ import {
   getStoredServices, 
   getStoredArticles, 
   getStoredSettings,
-  getStoredCategories 
+  getStoredCategories,
+  getStoredTheme,
+  applyThemeToDocument
 } from './utils/adminStorage';
 import { Sparkles, SearchX } from 'lucide-react';
 
@@ -41,6 +43,12 @@ export default function App() {
   const [dataVersion, setDataVersion] = useState<number>(0);
   const settings = useMemo(() => getStoredSettings(), [dataVersion]);
   const PHONE_NUMBER = settings.ownerPhone || '785502919';
+
+  // Apply theme dynamically to document root whenever theme or dataVersion changes
+  useEffect(() => {
+    const theme = getStoredTheme();
+    applyThemeToDocument(theme);
+  }, [dataVersion]);
 
   const [lang, setLang] = useState<Language>('ar');
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>('all');
@@ -107,7 +115,11 @@ export default function App() {
 
   return (
     <div 
-      className={`min-h-screen bg-gradient-to-b from-[#F8FAFF] via-white to-[#E6F0FF] text-[#0F172A] flex flex-col font-['Cairo','Tajawal',sans-serif] selection:bg-blue-600 selection:text-white`}
+      className="min-h-screen text-[#0F172A] flex flex-col selection:bg-blue-600 selection:text-white transition-colors"
+      style={{
+        background: 'linear-gradient(to bottom, var(--body-bg-start, #F8FAFF), #FFFFFF, var(--body-bg-end, #E6F0FF))',
+        fontFamily: 'var(--theme-font-family, "Cairo", "Tajawal", sans-serif)'
+      }}
       dir={lang === 'ar' ? 'rtl' : 'ltr'}
     >
       
@@ -127,6 +139,8 @@ export default function App() {
         isAdminLoggedIn={isAdminLoggedIn}
         onOpenAdminDashboard={() => setIsAdminDashboardOpen(true)}
         categoriesList={categoriesList}
+        appName={settings.appName}
+        appSlogan={settings.appSlogan}
       />
 
       {/* Main Content Area */}
@@ -141,6 +155,10 @@ export default function App() {
           onOpenDownloadModal={() => setIsDownloadModalOpen(true)}
           onOpenPinModal={() => setIsPinModalOpen(true)}
           isAppUnlocked={isAppUnlocked}
+          heroBadgeText={settings.heroBadgeText}
+          statsOrdersCompleted={settings.statsOrdersCompleted}
+          statsSuccessRate={settings.statsSuccessRate}
+          statsSupportAvailability={settings.statsSupportAvailability}
           onSelectCategory={(cat) => {
             setActiveCategory(cat);
             const el = document.getElementById('services-section');
@@ -277,6 +295,8 @@ export default function App() {
         }}
         lang={lang}
         onOpenDownloadModal={() => setIsDownloadModalOpen(true)}
+        appName={settings.appName}
+        appSlogan={settings.appSlogan}
       />
 
       {/* Floating Action Bar with Phone & WhatsApp 785502919 */}

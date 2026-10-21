@@ -31,7 +31,15 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
-  Move
+  Move,
+  Palette,
+  Archive,
+  ArchiveRestore,
+  Copy,
+  ArrowUpToLine,
+  ArrowDownToLine,
+  Sliders,
+  Type
 } from 'lucide-react';
 import { 
   ArticleItem, 
@@ -41,13 +49,23 @@ import {
   AdminSettings, 
   Language, 
   ServiceCategory,
-  ApkCategory
+  ApkCategory,
+  ThemeSettings
 } from '../types';
 import { 
   getStoredArticles, 
   addArticle, 
   updateArticle, 
   deleteArticle, 
+  moveArticleUp,
+  moveArticleDown,
+  setArticleRank,
+  moveArticleToTop,
+  moveArticleToBottom,
+  toggleArchiveArticle,
+  archiveAllArticles,
+  unarchiveAllArticles,
+  duplicateArticle,
   getStoredApks, 
   addApk, 
   updateApk, 
@@ -73,6 +91,11 @@ import {
   deleteOrder, 
   getStoredSettings, 
   saveSettings, 
+  getStoredTheme,
+  saveTheme,
+  resetThemeToDefault,
+  THEME_PRESETS,
+  DEFAULT_THEME,
   exportAllDatabaseJSON, 
   importDatabaseJSON, 
   resetToDefaults,
@@ -95,7 +118,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
   const isAr = lang === 'ar';
 
   // Active top navigation tab
-  const [activeTab, setActiveTab] = useState<'apks' | 'categories' | 'services' | 'articles' | 'orders' | 'settings' | 'backup'>('apks');
+  const [activeTab, setActiveTab] = useState<'apks' | 'categories' | 'services' | 'articles' | 'theme' | 'orders' | 'settings' | 'backup'>('apks');
 
   // Loaded data lists
   const [apksList, setApksList] = useState<ApkItem[]>([]);
@@ -104,9 +127,11 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
   const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
   const [ordersList, setOrdersList] = useState<CustomerOrder[]>([]);
   const [settings, setSettings] = useState<AdminSettings>(getStoredSettings());
+  const [themeSettings, setThemeSettings] = useState<ThemeSettings>(getStoredTheme());
 
-  // Search queries within tabs
+  // Search & Filter queries within tabs
   const [searchQuery, setSearchQuery] = useState('');
+  const [articleArchiveFilter, setArticleArchiveFilter] = useState<'all' | 'active' | 'archived'>('all');
 
   // Notifications / Feedback
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -133,6 +158,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
     setServicesList(getStoredServices('ar'));
     setOrdersList(getStoredOrders());
     setSettings(getStoredSettings());
+    setThemeSettings(getStoredTheme());
     if (onDataChanged) onDataChanged();
   };
 
@@ -219,6 +245,106 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
       setCategoriesList(updated);
       if (onDataChanged) onDataChanged();
       showToast(isAr ? 'تمت استعادة الترتيب الأصلي للتصنيفات' : 'Categories reset');
+    }
+  };
+
+  // Reorder Articles Handlers
+  const handleMoveArticleUp = (id: string) => {
+    const updated = moveArticleUp(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم تقديم المنشور للأعلى ⬆️' : 'Moved article up');
+  };
+
+  const handleMoveArticleDown = (id: string) => {
+    const updated = moveArticleDown(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم تأخير المنشور للأسفل ⬇️' : 'Moved article down');
+  };
+
+  const handleSetArticleRank = (id: string, rank: number) => {
+    const updated = setArticleRank(id, rank);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? `تم تعيين ترتيب المنشور إلى #${rank} 🎯` : `Set article rank to #${rank}`);
+  };
+
+  const handleMoveArticleToTop = (id: string) => {
+    const updated = moveArticleToTop(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم نقل المنشور لأول القائمة 🔝' : 'Moved article to top');
+  };
+
+  const handleMoveArticleToBottom = (id: string) => {
+    const updated = moveArticleToBottom(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم نقل المنشور لآخر القائمة 🔻' : 'Moved article to bottom');
+  };
+
+  // Article Archiving Handlers
+  const handleToggleArchiveArticle = (id: string, title: string) => {
+    const updated = toggleArchiveArticle(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    const item = updated.find(a => a.id === id);
+    if (item?.isArchived) {
+      showToast(isAr ? `تمت أرشفة "${title}" بنجاح 📦` : `Archived "${title}"`);
+    } else {
+      showToast(isAr ? `تمت استعادة "${title}" من الأرشيف ونشره 🟢` : `Restored "${title}" from archive`);
+    }
+  };
+
+  const handleArchiveAllArticles = () => {
+    if (confirm(isAr ? 'هل أنت متأكد من رغبتك في أرشفة جميع المنشورات والمقالات دفعة واحدة؟' : 'Archive all articles?')) {
+      const updated = archiveAllArticles();
+      setArticlesList(updated);
+      if (onDataChanged) onDataChanged();
+      showToast(isAr ? 'تمت أرشفة جميع المنشورات بنجاح 📦' : 'All articles archived');
+    }
+  };
+
+  const handleUnarchiveAllArticles = () => {
+    if (confirm(isAr ? 'هل أنت متأكد من رغبتك في إلغاء أرشفة واستعادة جميع المنشورات؟' : 'Restore all articles?')) {
+      const updated = unarchiveAllArticles();
+      setArticlesList(updated);
+      if (onDataChanged) onDataChanged();
+      showToast(isAr ? 'تمت استعادة ونشر جميع المنشورات 🟢' : 'All articles restored');
+    }
+  };
+
+  const handleDuplicateArticle = (id: string) => {
+    const updated = duplicateArticle(id);
+    setArticlesList(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم استنساخ المنشور بنجاح 📄' : 'Article duplicated');
+  };
+
+  // Theme Customization Handlers
+  const handleApplyPresetTheme = (presetKey: string) => {
+    const preset = THEME_PRESETS[presetKey];
+    if (!preset) return;
+    const updated = { ...preset.theme };
+    setThemeSettings(updated);
+    saveTheme(updated);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? `تم تطبيق ثيم: ${preset.name} بنجاح ✨` : `Theme "${preset.nameEn}" applied`);
+  };
+
+  const handleSaveCustomTheme = () => {
+    saveTheme(themeSettings);
+    if (onDataChanged) onDataChanged();
+    showToast(isAr ? 'تم حفظ ألوان وتصميم الموقع بنجاح 🎨' : 'Theme saved successfully');
+  };
+
+  const handleResetTheme = () => {
+    if (confirm(isAr ? 'هل أنت متأكد من استعادة ألوان وتصميم الموقع الافتراضي؟' : 'Reset theme to default?')) {
+      const def = resetThemeToDefault();
+      setThemeSettings(def);
+      if (onDataChanged) onDataChanged();
+      showToast(isAr ? 'تمت استعادة التصميم الافتراضي' : 'Theme reset to default');
     }
   };
 
@@ -613,6 +739,21 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
           </button>
 
           <button
+            onClick={() => { setActiveTab('theme'); setSearchQuery(''); }}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition shrink-0 cursor-pointer ${
+              activeTab === 'theme'
+                ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white shadow-md shadow-purple-900/40 ring-1 ring-purple-400/50'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <Palette className="w-4 h-4 text-purple-400" />
+            <span>{isAr ? 'ألوان وتصميم الموقع' : 'Theme & Colors'}</span>
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-purple-950/80 border border-purple-600/60 text-purple-300 font-mono">
+              VIP
+            </span>
+          </button>
+
+          <button
             onClick={() => { setActiveTab('orders'); setSearchQuery(''); }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition shrink-0 cursor-pointer ${
               activeTab === 'orders'
@@ -817,95 +958,302 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
           )}
 
           {/* =================================================================
-              TAB 2: ARTICLES, POSTS & IMAGE UPLOADS
+          {/* =================================================================
+              TAB 2: ARTICLES, POSTS & IMAGE UPLOADS (FULL MASTER CONTROLS)
               ================================================================= */}
           {activeTab === 'articles' && (
             <div className="space-y-6">
               
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                <div className="relative flex-1 max-w-md">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={isAr ? 'بحث في المنشورات والمقالات...' : 'Search articles...'}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400"
-                  />
-                  <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+              {/* Header Banner & Master Control Bar */}
+              <div className="bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+                  <div className="relative flex-1 max-w-md">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={isAr ? 'بحث في المنشورات والمقالات...' : 'Search articles...'}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400"
+                    />
+                    <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    {/* Add new article button */}
+                    <button
+                      onClick={handleOpenAddArticle}
+                      className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>{isAr ? 'إضافة منشور جديد (مع رفع الصور)' : 'Add New Article'}</span>
+                    </button>
+
+                    {/* Bulk Archive All Button */}
+                    <button
+                      type="button"
+                      onClick={handleArchiveAllArticles}
+                      title={isAr ? 'أرشفة جميع المنشورات دفعة واحدة' : 'Archive all'}
+                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-950/80 hover:bg-amber-900 border border-amber-700/60 text-amber-300 text-xs font-bold transition cursor-pointer"
+                    >
+                      <Archive className="w-3.5 h-3.5" />
+                      <span>{isAr ? 'أرشفة الجميع' : 'Archive All'}</span>
+                    </button>
+
+                    {/* Bulk Restore All Button */}
+                    <button
+                      type="button"
+                      onClick={handleUnarchiveAllArticles}
+                      title={isAr ? 'استعادة وإلغاء أرشفة جميع المنشورات' : 'Restore all'}
+                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-emerald-300 text-xs font-bold transition cursor-pointer"
+                    >
+                      <ArchiveRestore className="w-3.5 h-3.5" />
+                      <span>{isAr ? 'استعادة الجميع' : 'Restore All'}</span>
+                    </button>
+                  </div>
                 </div>
 
-                <button
-                  onClick={handleOpenAddArticle}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition cursor-pointer"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>{isAr ? 'إضافة منشور ومقال جديد (مع رفع الصور)' : 'Add New Article / Post'}</span>
-                </button>
+                {/* Filter Pills for Status */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800">
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setArticleArchiveFilter('all')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                        articleArchiveFilter === 'all'
+                          ? 'bg-cyan-600 text-white shadow-md'
+                          : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                      }`}
+                    >
+                      {isAr ? 'جميع المنشورات' : 'All'} ({articlesList.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setArticleArchiveFilter('active')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 ${
+                        articleArchiveFilter === 'active'
+                          ? 'bg-emerald-600 text-white shadow-md'
+                          : 'bg-slate-950 text-slate-400 hover:text-emerald-400 border border-slate-800'
+                      }`}
+                    >
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span>{isAr ? 'النشطة المنشورة' : 'Active'}</span> ({articlesList.filter(a => !a.isArchived).length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setArticleArchiveFilter('archived')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 ${
+                        articleArchiveFilter === 'archived'
+                          ? 'bg-amber-600 text-white shadow-md'
+                          : 'bg-slate-950 text-slate-400 hover:text-amber-400 border border-slate-800'
+                      }`}
+                    >
+                      <span>📦</span>
+                      <span>{isAr ? 'المؤرشفة' : 'Archived'}</span> ({articlesList.filter(a => a.isArchived).length})
+                    </button>
+                  </div>
+
+                  <span className="text-[11px] text-slate-400">
+                    {isAr ? '💡 يمكنك تحريك أي منشور لأي ترتيب، أو أرشفته أو استنساخه' : '💡 Reorder, archive, or duplicate any post'}
+                  </span>
+                </div>
               </div>
 
               {/* Articles Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {articlesList
-                  .filter(art => !searchQuery || art.title.toLowerCase().includes(searchQuery.toLowerCase()) || art.summary.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map(art => (
-                    <div 
-                      key={art.id}
-                      className="bg-slate-900/90 rounded-2xl border border-slate-800 hover:border-cyan-500/50 overflow-hidden flex flex-col justify-between transition"
-                    >
-                      <div>
-                        <div className="relative h-44 bg-slate-950 overflow-hidden">
-                          <img 
-                            src={art.image} 
-                            alt={art.title} 
-                            className="w-full h-full object-cover transition duration-300 hover:scale-105"
-                          />
-                          <div className="absolute top-2 right-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-cyan-300 border border-cyan-800/50">
-                            {art.categoryName}
+                  .filter(art => {
+                    const matchesSearch = !searchQuery || art.title.toLowerCase().includes(searchQuery.toLowerCase()) || art.summary.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesFilter = articleArchiveFilter === 'all' 
+                      ? true 
+                      : articleArchiveFilter === 'active' 
+                        ? !art.isArchived 
+                        : !!art.isArchived;
+                    return matchesSearch && matchesFilter;
+                  })
+                  .map((art) => {
+                    const rankIndex = articlesList.findIndex(a => a.id === art.id) + 1;
+                    return (
+                      <div 
+                        key={art.id}
+                        className={`bg-slate-900/90 rounded-2xl border ${
+                          art.isArchived ? 'border-amber-700/60' : 'border-slate-800 hover:border-cyan-500/50'
+                        } overflow-hidden flex flex-col justify-between transition shadow-md`}
+                      >
+                        <div>
+                          {/* Image & Header Badges */}
+                          <div className="relative h-44 bg-slate-950 overflow-hidden">
+                            <img 
+                              src={art.image} 
+                              alt={art.title} 
+                              className="w-full h-full object-cover transition duration-300 hover:scale-105"
+                            />
+                            <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                              <span className="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-cyan-300 border border-cyan-800/50">
+                                {art.categoryName}
+                              </span>
+                              {art.isArchived ? (
+                                <span className="bg-amber-950/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-amber-300 border border-amber-600/70">
+                                  📦 {isAr ? 'مؤرشف' : 'Archived'}
+                                </span>
+                              ) : (
+                                <span className="bg-emerald-950/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-emerald-300 border border-emerald-600/70">
+                                  🟢 {isAr ? 'نشط' : 'Active'}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="absolute bottom-2 left-2 bg-slate-950/80 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-300">
+                              #{rankIndex}
+                            </div>
+                          </div>
+
+                          <div className="p-4 space-y-2">
+                            <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                              <span>✍️ {art.author}</span>
+                              <span>•</span>
+                              <span>⏱️ {art.readTime}</span>
+                              <span>•</span>
+                              <span>📅 {art.date}</span>
+                            </div>
+                            <h3 className="text-sm font-bold text-white line-clamp-2 leading-snug">
+                              {art.title}
+                            </h3>
+                            <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                              {art.summary}
+                            </p>
                           </div>
                         </div>
 
-                        <div className="p-4 space-y-2">
-                          <div className="flex items-center gap-2 text-[10px] text-slate-400">
-                            <span>✍️ {art.author}</span>
-                            <span>•</span>
-                            <span>⏱️ {art.readTime}</span>
+                        {/* Interactive Reordering Controls */}
+                        <div className="p-3 bg-slate-950/80 border-t border-slate-800 space-y-2.5">
+                          
+                          <div className="flex items-center justify-between gap-1">
+                            <div className="flex items-center gap-1">
+                              <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded-md bg-cyan-950 border border-cyan-700/60 text-cyan-300">
+                                #{rankIndex}
+                              </span>
+                              <span className="text-[11px] text-slate-300 font-bold">{isAr ? 'ترتيب المنشور' : 'Rank'}</span>
+                            </div>
+
+                            {/* Arrow Buttons & To Top / To Bottom */}
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleMoveArticleToTop(art.id)}
+                                title={isAr ? 'نقل لأول القائمة' : 'Move to top'}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-cyan-900/60 text-cyan-300 hover:text-white transition cursor-pointer"
+                              >
+                                <ArrowUpToLine className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleMoveArticleUp(art.id)}
+                                title={isAr ? 'تقديم لأعلى' : 'Move Up'}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-cyan-900/60 text-cyan-300 hover:text-white transition cursor-pointer"
+                              >
+                                <ArrowUp className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleMoveArticleDown(art.id)}
+                                title={isAr ? 'تأخير لأسفل' : 'Move Down'}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-cyan-900/60 text-cyan-300 hover:text-white transition cursor-pointer"
+                              >
+                                <ArrowDown className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleMoveArticleToBottom(art.id)}
+                                title={isAr ? 'نقل لآخر القائمة' : 'Move to bottom'}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-cyan-900/60 text-cyan-300 hover:text-white transition cursor-pointer"
+                              >
+                                <ArrowDownToLine className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* Dropdown position selector */}
+                              <select
+                                value={rankIndex}
+                                onChange={(e) => handleSetArticleRank(art.id, Number(e.target.value))}
+                                className="bg-slate-900 border border-cyan-700/50 text-cyan-200 rounded-lg px-2 py-1 text-xs cursor-pointer font-bold focus:outline-none"
+                                title={isAr ? 'تحديد الترتيب بدقة' : 'Set rank'}
+                              >
+                                {articlesList.map((_, rIdx) => (
+                                  <option key={rIdx + 1} value={rIdx + 1}>
+                                    {isAr ? `ترتيب #${rIdx + 1}` : `Rank #${rIdx + 1}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           </div>
-                          <h3 className="text-sm font-bold text-white line-clamp-2 leading-snug">
-                            {art.title}
-                          </h3>
-                          <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
-                            {art.summary}
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
-                        <span className="text-[10px] text-slate-400">
-                          {art.stepsGuide?.length || 0} {isAr ? 'خطوات مصورة' : 'steps'}
-                        </span>
-                        <div className="flex items-center gap-1.5">
-                          <button
-                            onClick={() => {
-                              setEditingArticle({ ...art });
-                              setIsArticleFormOpen(true);
-                            }}
-                            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition cursor-pointer"
-                            title={isAr ? 'تعديل المقال' : 'Edit'}
-                          >
-                            <Edit3 className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteArticle(art.id, art.title)}
-                            className="p-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 transition cursor-pointer"
-                            title={isAr ? 'حذف المقال' : 'Delete'}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
+                          {/* Action Toolbar */}
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                            
+                            {/* Archive Toggle Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleToggleArchiveArticle(art.id, art.title)}
+                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                                art.isArchived
+                                  ? 'bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/70 text-emerald-300'
+                                  : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-600/70 text-amber-300'
+                              }`}
+                              title={art.isArchived ? (isAr ? 'إلغاء الأرشفة وإعادة النشر' : 'Restore') : (isAr ? 'أرشفة المنشور' : 'Archive')}
+                            >
+                              {art.isArchived ? (
+                                <>
+                                  <ArchiveRestore className="w-3.5 h-3.5" />
+                                  <span>{isAr ? 'إلغاء الأرشفة' : 'Restore'}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Archive className="w-3.5 h-3.5" />
+                                  <span>{isAr ? 'أرشفة' : 'Archive'}</span>
+                                </>
+                              )}
+                            </button>
 
-                    </div>
-                  ))}
+                            <div className="flex items-center gap-1.5">
+                              {/* Duplicate Article Button */}
+                              <button
+                                type="button"
+                                onClick={() => handleDuplicateArticle(art.id)}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition cursor-pointer"
+                                title={isAr ? 'استنساخ المنشور' : 'Duplicate'}
+                              >
+                                <Copy className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* Edit Article */}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingArticle({ ...art });
+                                  setIsArticleFormOpen(true);
+                                }}
+                                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition cursor-pointer"
+                                title={isAr ? 'تعديل المنشور والمحتوى' : 'Edit'}
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* Delete Article */}
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteArticle(art.id, art.title)}
+                                className="p-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 transition cursor-pointer"
+                                title={isAr ? 'حذف المنشور نهائياً' : 'Delete'}
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+                    );
+                  })}
               </div>
 
             </div>
@@ -984,6 +1332,546 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* =================================================================
+              TAB: THEME & LIVE DESIGN CUSTOMIZATION (FULL MASTER PRIVILEGES)
+              ================================================================= */}
+          {activeTab === 'theme' && (
+            <div className="space-y-6 max-w-5xl mx-auto">
+              
+              {/* Top Banner */}
+              <div className="bg-gradient-to-r from-purple-950/60 via-slate-900 to-indigo-950/60 p-5 rounded-3xl border border-purple-800/40 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-xl bg-purple-900/60 border border-purple-700/60 flex items-center justify-center text-purple-300">
+                      <Palette className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-white flex items-center gap-2">
+                        <span>{isAr ? 'تخصيص وتغيير تصميم وألوان الموقع بالكامل' : 'Theme & Color Customizer'}</span>
+                        <span className="text-[10px] bg-purple-500/30 text-purple-200 border border-purple-400/50 px-2 py-0.5 rounded-full font-mono">
+                          MASTER CONTROL
+                        </span>
+                      </h3>
+                      <p className="text-xs text-purple-200/80">
+                        {isAr ? 'اختر ثيماً ملكياً جاهزاً بضغطة زر واحدة، أو عدّل الألوان والأزرار والخلفيات بدقة.' : 'Pick a preset theme or customize all website colors and fonts.'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <button
+                    type="button"
+                    onClick={handleResetTheme}
+                    className="flex-1 md:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-bold transition cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>{isAr ? 'استعادة الافتراضي' : 'Reset'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveCustomTheme}
+                    className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-purple-900/50 transition cursor-pointer"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>{isAr ? 'حفظ وتطبيق التصميم' : 'Save Theme'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 1. Theme Presets Grid */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-400" />
+                    <span>{isAr ? '1. قوالب الألوان الملكية الجاهزة (تطبيق فوري بضغطة واحدة)' : '1. One-Click Theme Presets'}</span>
+                  </h4>
+                  <span className="text-xs text-slate-400">
+                    {isAr ? 'اضغط على أي قالب لمعاينته وتطبيقه فوراً' : 'Click any preset to apply'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                  {Object.entries(THEME_PRESETS).map(([key, item]) => {
+                    const isCurrent = themeSettings.presetThemeId === key;
+                    const pTheme = item.theme;
+                    return (
+                      <div
+                        key={key}
+                        onClick={() => handleApplyPresetTheme(key)}
+                        className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                          isCurrent
+                            ? 'bg-purple-950/40 border-purple-400 ring-2 ring-purple-500/50 shadow-lg shadow-purple-950/50 scale-[1.01]'
+                            : 'bg-slate-900 border-slate-800 hover:border-slate-700 hover:bg-slate-850'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-xs font-bold text-white">{isAr ? item.name : item.nameEn}</span>
+                            {isCurrent && (
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-600 text-white flex items-center gap-1 shadow-sm">
+                                <CheckCircle2 className="w-3 h-3" />
+                                <span>{isAr ? 'نشط الآن' : 'Active'}</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Color Palette Bubbles */}
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="space-y-1 text-center">
+                              <div 
+                                className="w-8 h-8 rounded-xl shadow-inner border border-white/20" 
+                                style={{ backgroundColor: pTheme.headerFooterBg }}
+                                title="الهيدر والفوتر"
+                              />
+                              <span className="text-[9px] text-slate-400 block">{isAr ? 'الهيدر' : 'Header'}</span>
+                            </div>
+
+                            <div className="space-y-1 text-center">
+                              <div 
+                                className="w-8 h-8 rounded-xl shadow-inner border border-white/20" 
+                                style={{ background: `linear-gradient(135deg, ${pTheme.primaryColor}, ${pTheme.primaryGradientEnd})` }}
+                                title="الأزرار الرئيسية"
+                              />
+                              <span className="text-[9px] text-slate-400 block">{isAr ? 'الزر' : 'Button'}</span>
+                            </div>
+
+                            <div className="space-y-1 text-center">
+                              <div 
+                                className="w-8 h-8 rounded-xl shadow-inner border border-white/20" 
+                                style={{ background: `linear-gradient(135deg, ${pTheme.bodyBgStart}, ${pTheme.bodyBgEnd})` }}
+                                title="الخلفية الفاتحة"
+                              />
+                              <span className="text-[9px] text-slate-400 block">{isAr ? 'الخلفية' : 'Body'}</span>
+                            </div>
+
+                            <div className="space-y-1 text-center">
+                              <div 
+                                className="w-8 h-8 rounded-xl shadow-inner border border-white/20" 
+                                style={{ backgroundColor: pTheme.secondaryAccent }}
+                                title="أيقونات الخدمات"
+                              />
+                              <span className="text-[9px] text-slate-400 block">{isAr ? 'الأيقونة' : 'Icon'}</span>
+                            </div>
+
+                            <div className="space-y-1 text-center">
+                              <div 
+                                className="w-8 h-8 rounded-xl shadow-inner border border-white/20" 
+                                style={{ backgroundColor: pTheme.androidGreen }}
+                                title="زر الأندرويد الأخضر"
+                              />
+                              <span className="text-[9px] text-slate-400 block">APK</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                          <span>الخط: {pTheme.fontFamily}</span>
+                          <span className="text-purple-400 font-bold hover:underline">{isAr ? 'تطبيق الثيم' : 'Apply'} ←</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Custom Color Pickers */}
+              <div className="bg-slate-900 p-5 rounded-3xl border border-slate-800 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Sliders className="w-4 h-4 text-cyan-400" />
+                    <span>{isAr ? '2. تخصيص الألوان بدقة (ألوان مخصصة لكل جزء بالموقع)' : '2. Detailed Custom Color Pickers'}</span>
+                  </h4>
+                  <span className="text-xs text-slate-400">
+                    {isAr ? 'يمكنك اختيار أي لون عبر لوحة الألوان أو كتابة كود Hex' : 'Pick visually or type Hex'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  
+                  {/* Header & Footer */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'خلفية الهيدر والفوتر' : 'Header & Footer Bg'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.headerFooterBg}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.headerFooterBg}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, headerFooterBg: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.headerFooterBg}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, headerFooterBg: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Primary Color Start */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'لون الزر الأساسي (بداية التدرج)' : 'Primary Button (Start)'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.primaryColor}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.primaryColor}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, primaryColor: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.primaryColor}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, primaryColor: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Primary Color End */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'نهاية تدرج الزر الأساسي' : 'Primary Button (End)'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.primaryGradientEnd}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.primaryGradientEnd}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, primaryGradientEnd: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.primaryGradientEnd}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, primaryGradientEnd: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Body Background Start */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'خلفية الموقع (أعلى الصفحة)' : 'Body Background (Top)'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.bodyBgStart}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.bodyBgStart}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, bodyBgStart: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.bodyBgStart}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, bodyBgStart: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Body Background End */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'خلفية الموقع (أسفل الصفحة)' : 'Body Background (Bottom)'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.bodyBgEnd}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.bodyBgEnd}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, bodyBgEnd: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.bodyBgEnd}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, bodyBgEnd: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Secondary Accent Icon */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'أيقونات الخدمات الدائرية' : 'Circular Icon Accent'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.secondaryAccent}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.secondaryAccent}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, secondaryAccent: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.secondaryAccent}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, secondaryAccent: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Android Green */}
+                  <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-200">
+                        {isAr ? 'زر الأندرويد والـ APK الأخضر' : 'Android Button Green'}
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">{themeSettings.androidGreen}</span>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="color"
+                        value={themeSettings.androidGreen}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, androidGreen: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="w-10 h-10 rounded-xl cursor-pointer bg-transparent border-0 p-0"
+                      />
+                      <input
+                        type="text"
+                        value={themeSettings.androidGreen}
+                        onChange={(e) => {
+                          const updated = { ...themeSettings, androidGreen: e.target.value, presetThemeId: 'custom' as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* 3. Typography & Card Style */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                {/* Font Family */}
+                <div className="bg-slate-900 p-5 rounded-3xl border border-slate-800 space-y-3">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Type className="w-4 h-4 text-emerald-400" />
+                    <span>{isAr ? '3. نوع الخط العربي للموقع' : '3. Arabic Font Family'}</span>
+                  </h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['Cairo', 'Tajawal', 'Almarai'] as const).map(font => (
+                      <button
+                        key={font}
+                        type="button"
+                        onClick={() => {
+                          const updated = { ...themeSettings, fontFamily: font };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
+                          themeSettings.fontFamily === font
+                            ? 'bg-purple-950/60 border-purple-500 text-purple-200 font-black ring-1 ring-purple-400/50'
+                            : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <div className="text-sm">{font}</div>
+                        <div className="text-[10px] text-slate-500 mt-1">
+                          {font === 'Cairo' ? 'الافتراضي الهندسي' : font === 'Tajawal' ? 'العصري المقروء' : 'المؤسسي الواضح'}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card Corner Radius */}
+                <div className="bg-slate-900 p-5 rounded-3xl border border-slate-800 space-y-3">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-amber-400" />
+                    <span>{isAr ? '4. زوايا وانحناء الكروت' : '4. Card Corner Radius'}</span>
+                  </h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: 'rounded-xl', label: 'ناعم (12px)', sub: 'rounded-xl' },
+                      { id: 'rounded-2xl', label: 'عصري (16px)', sub: 'rounded-2xl' },
+                      { id: 'rounded-3xl', label: 'عريض (24px)', sub: 'rounded-3xl' }
+                    ].map(rad => (
+                      <button
+                        key={rad.id}
+                        type="button"
+                        onClick={() => {
+                          const updated = { ...themeSettings, cardRadius: rad.id as any };
+                          setThemeSettings(updated);
+                          saveTheme(updated);
+                        }}
+                        className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
+                          themeSettings.cardRadius === rad.id
+                            ? 'bg-purple-950/60 border-purple-500 text-purple-200 font-black ring-1 ring-purple-400/50'
+                            : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <div className="text-xs font-bold">{rad.label}</div>
+                        <div className="text-[10px] text-slate-500 mt-1 font-mono">{rad.sub}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* 5. Live Interactive Preview */}
+              <div className="bg-slate-900 p-5 rounded-3xl border border-slate-800 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-blue-400" />
+                    <span>{isAr ? '5. معاينة حية وفورية لتصميم الموقع بالألوان الحالية' : '5. Live Theme Preview'}</span>
+                  </h4>
+                  <span className="text-xs text-emerald-400 font-bold flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>{isAr ? 'معاينة متزامنة' : 'Live Sync'}</span>
+                  </span>
+                </div>
+
+                <div 
+                  className="p-5 sm:p-8 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6"
+                  style={{
+                    background: `linear-gradient(180deg, ${themeSettings.bodyBgStart} 0%, ${themeSettings.bodyBgEnd} 100%)`
+                  }}
+                >
+                  {/* Mock Mini Header */}
+                  <div 
+                    className="p-3.5 rounded-2xl shadow-md flex items-center justify-between text-white"
+                    style={{ backgroundColor: themeSettings.headerFooterBg }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div 
+                        className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-white shadow-sm"
+                        style={{ background: `linear-gradient(135deg, ${themeSettings.primaryColor}, ${themeSettings.primaryGradientEnd})` }}
+                      >
+                        R
+                      </div>
+                      <span className="font-bold text-sm">رقيب للبرمجة والتسويق</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs opacity-90">
+                      <span>الرئيسية</span>
+                      <span>الخدمات</span>
+                      <span>تطبيق APK</span>
+                    </div>
+                  </div>
+
+                  {/* Mock Service Card */}
+                  <div 
+                    className={`bg-white border border-[#DBEAFE] p-5 shadow-[0_4px_20px_rgba(37,99,235,0.08)] max-w-sm mx-auto space-y-3 ${themeSettings.cardRadius}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm"
+                        style={{ backgroundColor: themeSettings.secondaryAccent }}
+                      >
+                        <ShieldCheck className="w-5 h-5" />
+                      </div>
+                      <span 
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+                        style={{ backgroundColor: themeSettings.androidGreen }}
+                      >
+                        APK متاح
+                      </span>
+                    </div>
+
+                    <h5 className="font-bold text-[#0F172A] text-sm">فك شفرات الهواتف والشبكات الرسمية</h5>
+                    <p className="text-xs text-[#64748B]">معاينة شكل بطاقة الخدمة بالألوان والخط المحدد.</p>
+
+                    <div className="pt-2 flex items-center gap-2">
+                      <button
+                        type="button"
+                        className="flex-1 py-2 px-3 rounded-xl text-white text-xs font-bold transition shadow-md"
+                        style={{ background: `linear-gradient(135deg, ${themeSettings.primaryColor}, ${themeSettings.primaryGradientEnd})` }}
+                      >
+                        طلب الخدمة
+                      </button>
+                      <button
+                        type="button"
+                        className="py-2 px-2.5 rounded-xl text-white text-xs font-bold shadow-sm"
+                        style={{ backgroundColor: themeSettings.androidGreen }}
+                      >
+                        <Smartphone className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
             </div>
           )}
 
@@ -1113,6 +2001,100 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-emerald-400 font-mono"
                     required
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                    {isAr ? 'اسم الموقع والعلامة التجارية' : 'Website & Brand Name'}
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.appName || ''}
+                    onChange={(e) => setSettings({ ...settings, appName: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white"
+                    placeholder="رقيب للبرمجة والتسويق"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                    {isAr ? 'الوصف الفرعي والشعار' : 'Brand Slogan & Tagline'}
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.appSlogan || ''}
+                    onChange={(e) => setSettings({ ...settings, appSlogan: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white"
+                    placeholder="خدمات فك الشفرات، استرداد البيانات والحسابات والتسويق الرقمي"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                    {isAr ? 'نص رسالة الواتساب التلقائية عند طلب خدمة' : 'Default WhatsApp Order Message'}
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={settings.whatsappGreeting || ''}
+                    onChange={(e) => setSettings({ ...settings, whatsappGreeting: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white resize-none"
+                    placeholder="السلام عليكم مركز رقيب، أود الاستفسار وطلب إحدى خدمات البرمجة أو التسويق"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                    {isAr ? 'نص شارة الترحيب العلوية في الهيدر (Hero Badge)' : 'Hero Badge Text'}
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.heroBadgeText || ''}
+                    onChange={(e) => setSettings({ ...settings, heroBadgeText: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-cyan-300"
+                    placeholder="المركز البرمجي والتقني الأول في اليمن"
+                  />
+                </div>
+
+                {/* Numbers and Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 bg-slate-950 rounded-2xl border border-slate-800">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                      {isAr ? 'العمليات المنجزة' : 'Orders Done'}
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.statsOrdersCompleted || ''}
+                      onChange={(e) => setSettings({ ...settings, statsOrdersCompleted: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-cyan-400 font-mono"
+                      placeholder="+9,850"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                      {isAr ? 'نسبة النجاح' : 'Success Rate'}
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.statsSuccessRate || ''}
+                      onChange={(e) => setSettings({ ...settings, statsSuccessRate: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-emerald-400 font-mono"
+                      placeholder="100%"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                      {isAr ? 'توفر الدعم' : 'Support Hours'}
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.statsSupportAvailability || ''}
+                      onChange={(e) => setSettings({ ...settings, statsSupportAvailability: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-purple-400 font-mono"
+                      placeholder="24/7"
+                    />
+                  </div>
                 </div>
 
                 <div>

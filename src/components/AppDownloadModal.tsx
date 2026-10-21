@@ -71,17 +71,26 @@ export const AppDownloadModal: React.FC<AppDownloadModalProps> = ({
         </button>
 
         {/* Modal Header */}
-        <div className="space-y-2 pr-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[#16A34A] text-xs font-bold border border-emerald-200">
-            <Smartphone className="w-3.5 h-3.5 text-[#22C55E]" />
-            <span>{isAr ? 'تطبيق الأندرويد المعتمد v2.2' : 'Official Android App v2.2'}</span>
+        <div className="flex items-start gap-3.5 pr-8">
+          <div className="w-12 h-12 rounded-2xl overflow-hidden bg-white border border-[#DBEAFE] shadow-sm p-1 shrink-0 flex items-center justify-center">
+            <img 
+              src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
+              alt="تطبيق رقيب" 
+              className="w-full h-full object-contain rounded-xl"
+            />
           </div>
-          <h3 className="text-xl sm:text-2xl font-black text-[#0F172A] leading-snug">
-            {t.appModalTitle}
-          </h3>
-          <p className="text-xs sm:text-sm text-[#64748B]">
-            {t.appModalSubtitle}
-          </p>
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-50 text-[#16A34A] text-xs font-bold border border-emerald-200">
+              <Smartphone className="w-3.5 h-3.5 text-[#22C55E]" />
+              <span>{isAr ? 'تطبيق الأندرويد المعتمد v2.2' : 'Official Android App v2.2'}</span>
+            </div>
+            <h3 className="text-lg sm:text-2xl font-black text-[#0F172A] leading-snug">
+              {t.appModalTitle}
+            </h3>
+            <p className="text-xs sm:text-sm text-[#64748B]">
+              {t.appModalSubtitle}
+            </p>
+          </div>
         </div>
 
         {/* App Meta Specifications Badges */}

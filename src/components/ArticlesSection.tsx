@@ -33,6 +33,7 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   const t = UI_TRANSLATIONS[lang];
   const articlesList = articles || (lang === 'ar' ? getStoredArticles() : ARTICLES_DATA_EN);
 
+  const [showArchived, setShowArchived] = useState(false);
   const [activeArticle, setActiveArticle] = useState<ArticleItem | null>(() => {
     if (selectedArticleId) {
       return articlesList.find(a => a.id === selectedArticleId) || articlesList[0];
@@ -41,6 +42,10 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   });
 
   const isAr = lang === 'ar';
+
+  const publishedArticles = articlesList.filter(a => !a.isArchived);
+  const archivedArticles = articlesList.filter(a => a.isArchived);
+  const displayedArticles = showArchived ? archivedArticles : (publishedArticles.length > 0 ? publishedArticles : archivedArticles);
 
   return (
     <section id="articles-section" className="py-16 sm:py-24 relative border-t border-[#DBEAFE]">
@@ -51,7 +56,7 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#DBEAFE] text-[#2563EB] text-xs font-bold shadow-sm">
             <BookOpen className="w-3.5 h-3.5 text-[#3B82F6]" />
             <span>{t.articlesBadge}</span>
@@ -62,11 +67,53 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
           <p className="text-sm sm:text-base text-[#64748B] leading-relaxed">
             {t.articlesDesc}
           </p>
+
+          {/* Archive Status / View Toggle if archived articles exist */}
+          {archivedArticles.length > 0 && (
+            <div className="flex items-center justify-center gap-2 pt-2">
+              <button
+                onClick={() => setShowArchived(false)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                  !showArchived && publishedArticles.length > 0
+                    ? 'bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white shadow-md'
+                    : 'bg-white text-[#64748B] hover:text-[#0F172A] border border-[#DBEAFE]'
+                }`}
+              >
+                {isAr ? 'المنشورات النشطة' : 'Active Posts'} ({publishedArticles.length})
+              </button>
+              <button
+                onClick={() => setShowArchived(true)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                  showArchived || publishedArticles.length === 0
+                    ? 'bg-amber-600 text-white shadow-md'
+                    : 'bg-white text-[#64748B] hover:text-[#0F172A] border border-[#DBEAFE]'
+                }`}
+              >
+                <span>📦</span>
+                <span>{isAr ? 'أرشيف المقالات والدروس' : 'Archived Articles'} ({archivedArticles.length})</span>
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* Notice if all articles are archived and user is viewing active */}
+        {publishedArticles.length === 0 && !showArchived && (
+          <div className="p-6 mb-8 rounded-2xl bg-amber-50 border border-amber-200 text-center max-w-lg mx-auto space-y-2">
+            <p className="text-xs font-bold text-amber-900">
+              {isAr ? 'جميع المقالات والمنشورات محفوظة حالياً في الأرشيف بواسطة المالك.' : 'All articles are currently archived by the owner.'}
+            </p>
+            <button
+              onClick={() => setShowArchived(true)}
+              className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold cursor-pointer"
+            >
+              {isAr ? 'استعراض المقالات المؤرشفة' : 'Browse Archived Posts'} ({archivedArticles.length})
+            </button>
+          </div>
+        )}
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {articlesList.map((article) => {
+          {displayedArticles.map((article) => {
             const isSelected = activeArticle?.id === article.id;
             return (
               <div
@@ -86,9 +133,17 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A2351]/70 via-transparent to-transparent" />
                     
-                    {/* Category badge */}
-                    <div className={`absolute top-3 ${isAr ? 'right-3' : 'left-3'} bg-white/95 px-3 py-1 rounded-full text-xs font-bold text-[#2563EB] border border-[#DBEAFE] shadow-sm`}>
-                      {article.categoryName}
+                    {/* Category badge & Archive badge */}
+                    <div className={`absolute top-3 ${isAr ? 'right-3' : 'left-3'} flex items-center gap-1.5`}>
+                      <div className="bg-white/95 px-3 py-1 rounded-full text-xs font-bold text-[#2563EB] border border-[#DBEAFE] shadow-sm">
+                        {article.categoryName}
+                      </div>
+                      {article.isArchived && (
+                        <div className="bg-amber-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow-sm flex items-center gap-1">
+                          <span>📦</span>
+                          <span>{isAr ? 'مؤرشف' : 'Archived'}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Read time */}

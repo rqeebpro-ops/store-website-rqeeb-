@@ -23,19 +23,27 @@ interface FooterProps {
   onSelectCategory: (cat: ServiceCategory) => void;
   lang: Language;
   onOpenDownloadModal: () => void;
+  appName?: string;
+  appSlogan?: string;
 }
 
 export const Footer: React.FC<FooterProps> = ({ 
   phone, 
   onSelectCategory, 
   lang,
-  onOpenDownloadModal 
+  onOpenDownloadModal,
+  appName,
+  appSlogan
 }) => {
   const t = UI_TRANSLATIONS[lang];
   const isAr = lang === 'ar';
 
   return (
-    <footer className={`bg-[#0A2351] text-white border-t border-blue-900/50 ${isAr ? 'text-right' : 'text-left'} pt-16 pb-12`} dir={isAr ? 'rtl' : 'ltr'}>
+    <footer 
+      className={`text-white border-t border-blue-900/50 ${isAr ? 'text-right' : 'text-left'} pt-16 pb-12 transition-colors`} 
+      style={{ backgroundColor: 'var(--header-footer-bg, #0A2351)' }}
+      dir={isAr ? 'rtl' : 'ltr'}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Columns */}
@@ -48,8 +56,8 @@ export const Footer: React.FC<FooterProps> = ({
                 R
               </div>
               <div>
-                <span className="text-xl font-black text-white">{t.brandName}</span>
-                <span className="text-xs text-blue-200 block font-medium">{t.brandSub}</span>
+                <span className="text-xl font-black text-white">{appName && isAr ? appName : t.brandName}</span>
+                <span className="text-xs text-blue-200 block font-medium">{appSlogan && isAr ? appSlogan : t.brandSub}</span>
               </div>
             </div>
 

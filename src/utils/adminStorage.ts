@@ -1,4 +1,4 @@
-import { ArticleItem, ServiceItem, ApkItem, CustomerOrder, AdminSettings, Language, ServiceCategory } from '../types';
+import { ArticleItem, ServiceItem, ApkItem, CustomerOrder, AdminSettings, Language, ServiceCategory, ThemeSettings } from '../types';
 import { ARTICLES_DATA } from '../data/articlesData';
 import { SERVICES_DATA, CATEGORIES_LIST } from '../data/servicesData';
 import { SERVICES_DATA_EN, CATEGORIES_LIST_EN } from '../data/servicesDataEn';
@@ -20,7 +20,116 @@ const STORAGE_KEYS = {
   CATEGORIES: 'raqeeb_db_categories_v1',
   ORDERS: 'raqeeb_db_orders_v1',
   SETTINGS: 'raqeeb_db_settings_v1',
+  THEME: 'raqeeb_db_theme_settings_v1',
 };
+
+// Preset Themes for Owner Customization
+export const THEME_PRESETS: Record<string, { name: string; nameEn: string; theme: ThemeSettings }> = {
+  'royal-navy': {
+    name: 'الكحلي الملكي الفخم (الافتراضي)',
+    nameEn: 'Royal Navy & Blue (Default)',
+    theme: {
+      presetThemeId: 'royal-navy',
+      primaryColor: '#2563EB',
+      primaryGradientEnd: '#1D4ED8',
+      headerFooterBg: '#0A2351',
+      bodyBgStart: '#F8FAFF',
+      bodyBgEnd: '#E6F0FF',
+      secondaryAccent: '#3B82F6',
+      androidGreen: '#22C55E',
+      fontFamily: 'Cairo',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'soft'
+    }
+  },
+  'emerald-tech': {
+    name: 'الزمردي التقني والأخضر الذكي',
+    nameEn: 'Emerald Tech & Forest',
+    theme: {
+      presetThemeId: 'emerald-tech',
+      primaryColor: '#059669',
+      primaryGradientEnd: '#047857',
+      headerFooterBg: '#064E3B',
+      bodyBgStart: '#F0FDF4',
+      bodyBgEnd: '#DCFCE7',
+      secondaryAccent: '#10B981',
+      androidGreen: '#16A34A',
+      fontFamily: 'Tajawal',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'soft'
+    }
+  },
+  'cyber-purple': {
+    name: 'السايبر البنفسجي والأرجواني الفضائي',
+    nameEn: 'Cyber Indigo & Violet',
+    theme: {
+      presetThemeId: 'cyber-purple',
+      primaryColor: '#7C3AED',
+      primaryGradientEnd: '#6D28D9',
+      headerFooterBg: '#1E1B4B',
+      bodyBgStart: '#FAF5FF',
+      bodyBgEnd: '#F3E8FF',
+      secondaryAccent: '#8B5CF6',
+      androidGreen: '#22C55E',
+      fontFamily: 'Cairo',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'soft'
+    }
+  },
+  'midnight-gold': {
+    name: 'الأسود الملكي والذهبي الفاخر',
+    nameEn: 'Midnight Black & Luxury Gold',
+    theme: {
+      presetThemeId: 'midnight-gold',
+      primaryColor: '#D97706',
+      primaryGradientEnd: '#B45309',
+      headerFooterBg: '#18181B',
+      bodyBgStart: '#FFFBEB',
+      bodyBgEnd: '#FEF3C7',
+      secondaryAccent: '#F59E0B',
+      androidGreen: '#22C55E',
+      fontFamily: 'Cairo',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'medium'
+    }
+  },
+  'ocean-teal': {
+    name: 'التركواز والبحري العصري',
+    nameEn: 'Ocean Teal & Marine',
+    theme: {
+      presetThemeId: 'ocean-teal',
+      primaryColor: '#0D9488',
+      primaryGradientEnd: '#0F766E',
+      headerFooterBg: '#0F2D37',
+      bodyBgStart: '#F0FDFA',
+      bodyBgEnd: '#CCFBF1',
+      secondaryAccent: '#14B8A6',
+      androidGreen: '#22C55E',
+      fontFamily: 'Tajawal',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'soft'
+    }
+  },
+  'ruby-crimson': {
+    name: 'الياقوتي القرمزي والكحلي الداكن',
+    nameEn: 'Ruby Crimson & Slate',
+    theme: {
+      presetThemeId: 'ruby-crimson',
+      primaryColor: '#E11D48',
+      primaryGradientEnd: '#BE123C',
+      headerFooterBg: '#0F172A',
+      bodyBgStart: '#FFF1F2',
+      bodyBgEnd: '#FFE4E6',
+      secondaryAccent: '#F43F5E',
+      androidGreen: '#22C55E',
+      fontFamily: 'Cairo',
+      cardRadius: 'rounded-2xl',
+      cardShadow: 'soft'
+    }
+  }
+};
+
+export const DEFAULT_THEME: ThemeSettings = THEME_PRESETS['royal-navy'].theme;
 
 // Initial Seed APKs (Apps and Games)
 export const INITIAL_APKS: ApkItem[] = [
@@ -145,7 +254,14 @@ export const DEFAULT_SETTINGS: AdminSettings = {
   apkDownloadUrl: APK_DOWNLOAD_URL,
   ownerPhone: '785502919',
   validPins: [MASTER_OWNER_PIN, BACKUP_OWNER_PIN],
-  appName: 'رقيب للبرمجة والتسويق'
+  appName: 'رقيب للبرمجة والتسويق',
+  appSlogan: 'خدمات فك الشفرات، استرداد البيانات والحسابات والتسويق الرقمي المعتمد',
+  whatsappGreeting: 'السلام عليكم مركز رقيب، أود الاستفسار وطلب إحدى خدمات البرمجة أو التسويق',
+  heroBadgeText: 'المركز البرمجي والتقني الأول في اليمن',
+  statsSuccessRate: '100%',
+  statsOrdersCompleted: '+9,850',
+  statsSupportAvailability: '24/7',
+  themeSettings: DEFAULT_THEME
 };
 
 /* ==========================================================================
@@ -251,6 +367,94 @@ export const updateArticle = (updatedArticle: ArticleItem): ArticleItem[] => {
 export const deleteArticle = (id: string): ArticleItem[] => {
   const current = getStoredArticles();
   const updated = current.filter(a => a.id !== id);
+  saveArticlesList(updated);
+  return updated;
+};
+
+// Reorder Articles Functions
+export const moveArticleUp = (id: string): ArticleItem[] => {
+  const current = getStoredArticles();
+  const index = current.findIndex(a => a.id === id);
+  if (index <= 0) return current;
+  const updated = [...current];
+  const [item] = updated.splice(index, 1);
+  updated.splice(index - 1, 0, item);
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const moveArticleDown = (id: string): ArticleItem[] => {
+  const current = getStoredArticles();
+  const index = current.findIndex(a => a.id === id);
+  if (index === -1 || index >= current.length - 1) return current;
+  const updated = [...current];
+  const [item] = updated.splice(index, 1);
+  updated.splice(index + 1, 0, item);
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const setArticleRank = (id: string, targetRank: number): ArticleItem[] => {
+  const current = getStoredArticles();
+  const index = current.findIndex(a => a.id === id);
+  if (index === -1) return current;
+  const targetIndex = Math.max(0, Math.min(current.length - 1, targetRank - 1));
+  if (targetIndex === index) return current;
+  const updated = [...current];
+  const [item] = updated.splice(index, 1);
+  updated.splice(targetIndex, 0, item);
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const moveArticleToTop = (id: string): ArticleItem[] => {
+  return setArticleRank(id, 1);
+};
+
+export const moveArticleToBottom = (id: string): ArticleItem[] => {
+  const current = getStoredArticles();
+  return setArticleRank(id, current.length);
+};
+
+// Article Archiving Functions
+export const toggleArchiveArticle = (id: string): ArticleItem[] => {
+  const current = getStoredArticles();
+  const updated = current.map(item => {
+    if (item.id === id) {
+      return { ...item, isArchived: !item.isArchived };
+    }
+    return item;
+  });
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const archiveAllArticles = (): ArticleItem[] => {
+  const current = getStoredArticles();
+  const updated = current.map(item => ({ ...item, isArchived: true }));
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const unarchiveAllArticles = (): ArticleItem[] => {
+  const current = getStoredArticles();
+  const updated = current.map(item => ({ ...item, isArchived: false }));
+  saveArticlesList(updated);
+  return updated;
+};
+
+export const duplicateArticle = (id: string): ArticleItem[] => {
+  const current = getStoredArticles();
+  const source = current.find(a => a.id === id);
+  if (!source) return current;
+  const copy: ArticleItem = {
+    ...source,
+    id: `art-${Date.now()}`,
+    title: `${source.title} (نسخة جديدة)`,
+    date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
+    isArchived: false
+  };
+  const updated = [copy, ...current];
   saveArticlesList(updated);
   return updated;
 };
@@ -608,6 +812,54 @@ export const saveSettings = (newSettings: Partial<AdminSettings>): AdminSettings
 };
 
 /* ==========================================================================
+   THEME & DESIGN APPEARANCE CUSTOMIZATION
+   ========================================================================== */
+
+export const getStoredTheme = (): ThemeSettings => {
+  if (typeof window === 'undefined') return DEFAULT_THEME;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.THEME);
+    if (!raw) return DEFAULT_THEME;
+    return { ...DEFAULT_THEME, ...JSON.parse(raw) };
+  } catch {
+    return DEFAULT_THEME;
+  }
+};
+
+export const applyThemeToDocument = (theme: ThemeSettings): void => {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  root.style.setProperty('--primary-color', theme.primaryColor);
+  root.style.setProperty('--primary-gradient-end', theme.primaryGradientEnd);
+  root.style.setProperty('--header-footer-bg', theme.headerFooterBg);
+  root.style.setProperty('--body-bg-start', theme.bodyBgStart);
+  root.style.setProperty('--body-bg-end', theme.bodyBgEnd);
+  root.style.setProperty('--secondary-accent', theme.secondaryAccent);
+  root.style.setProperty('--android-green', theme.androidGreen);
+  const font = `'${theme.fontFamily || 'Cairo'}', 'Tajawal', sans-serif`;
+  root.style.setProperty('--theme-font-family', font);
+  if (document.body) {
+    document.body.style.fontFamily = font;
+  }
+};
+
+export const saveTheme = (theme: ThemeSettings): ThemeSettings => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEYS.THEME, JSON.stringify(theme));
+    applyThemeToDocument(theme);
+  }
+  return theme;
+};
+
+export const resetThemeToDefault = (): ThemeSettings => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(STORAGE_KEYS.THEME);
+    applyThemeToDocument(DEFAULT_THEME);
+  }
+  return DEFAULT_THEME;
+};
+
+/* ==========================================================================
    BACKUP & RESTORE
    ========================================================================== */
 
@@ -621,7 +873,8 @@ export const exportAllDatabaseJSON = (): string => {
     servicesAr: getStoredServices('ar'),
     servicesEn: getStoredServices('en'),
     orders: getStoredOrders(),
-    settings: getStoredSettings()
+    settings: getStoredSettings(),
+    theme: getStoredTheme()
   };
   return JSON.stringify(data, null, 2);
 };
@@ -641,6 +894,9 @@ export const importDatabaseJSON = (jsonString: string): boolean => {
     if (data.settings && typeof data.settings === 'object') {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
     }
+    if (data.theme && typeof data.theme === 'object') {
+      saveTheme(data.theme);
+    }
     return true;
   } catch (e) {
     console.error('Import failed', e);
@@ -659,6 +915,8 @@ export const resetToDefaults = (): void => {
     localStorage.removeItem(`${STORAGE_KEYS.SERVICES}_en`);
     localStorage.removeItem(STORAGE_KEYS.ORDERS);
     localStorage.removeItem(STORAGE_KEYS.SETTINGS);
+    localStorage.removeItem(STORAGE_KEYS.THEME);
+    applyThemeToDocument(DEFAULT_THEME);
   } catch {
     // ignore
   }

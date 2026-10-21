@@ -124,8 +124,12 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
           
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="inline-flex p-3 rounded-2xl bg-cyan-950/80 border border-cyan-500/50 text-cyan-400 shadow-inner">
-              <ShieldCheck className="w-8 h-8" />
+            <div className="inline-flex p-1 rounded-2xl bg-white border border-blue-400/40 shadow-xl w-16 h-16 mx-auto items-center justify-center overflow-hidden">
+              <img 
+                src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
+                alt="لوجو رقيب" 
+                className="w-full h-full object-contain rounded-xl"
+              />
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center justify-center gap-2">
               <span>{isAr ? 'لوحة تحكم رقيب' : 'Raqeeb Admin Panel'}</span>
