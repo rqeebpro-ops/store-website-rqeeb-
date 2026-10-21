@@ -232,28 +232,28 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={handleLogoSecretClick}
               type="button"
-              className="flex items-center gap-3 group text-right cursor-pointer select-none bg-transparent border-none p-0 focus:outline-none"
+              className="flex items-center gap-2.5 sm:gap-3 group text-right cursor-pointer select-none bg-transparent border-none p-0 focus:outline-none"
               title={isAr ? 'شعار منصة رقيب الرسمية' : 'Raqeeb Brand Logo'}
             >
-              {/* R Blue Logo */}
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] p-0.5 shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition shrink-0">
-                <div 
-                  className="w-full h-full rounded-[10px] flex items-center justify-center font-black text-xl sm:text-2xl text-white tracking-wider"
-                  style={{ backgroundColor: 'var(--header-footer-bg, #0A2351)' }}
-                >
-                  R
-                </div>
+              {/* Official Gold & Navy Badge Logo */}
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-md shadow-amber-500/20 group-hover:shadow-amber-500/40 group-hover:scale-105 transition-all shrink-0">
+                <img 
+                  src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
+                  alt={appName && isAr ? appName : t.brandName}
+                  className="w-full h-full object-cover rounded-full bg-[#0A2351]"
+                  loading="eager"
+                />
               </div>
               <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-lg sm:text-2xl font-black tracking-tight text-white group-hover:text-blue-200 transition truncate">
+                  <span className="text-base sm:text-xl lg:text-2xl font-black tracking-tight text-white group-hover:text-blue-200 transition truncate">
                     {appName && isAr ? appName : t.brandName}
                   </span>
                   <span className="text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/30 shrink-0">
                     {t.brandBadge}
                   </span>
                 </div>
-                <span className="text-[11px] sm:text-xs text-blue-200/80 font-medium truncate hidden xs:block">
+                <span className="text-[10px] sm:text-xs text-blue-200/80 font-medium truncate hidden xs:block">
                   {appSlogan && isAr ? appSlogan : t.brandSub}
                 </span>
               </div>
@@ -457,12 +457,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Drawer Header */}
             <div className="p-4 sm:p-5 bg-[#071838] border-b border-blue-900/40 flex items-center justify-between sticky top-0 z-20">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-xl text-white">
-                  R
+                <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-md shrink-0">
+                  <img 
+                    src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
+                    alt={appName && isAr ? appName : t.brandName}
+                    className="w-full h-full object-cover rounded-full bg-[#0A2351]"
+                  />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">{t.brandName}</h3>
-                  <p className="text-xs text-blue-200/80">{t.brandSub}</p>
+                  <h3 className="text-base font-bold text-white">{appName && isAr ? appName : t.brandName}</h3>
+                  <p className="text-xs text-blue-200/80">{appSlogan && isAr ? appSlogan : t.brandSub}</p>
                 </div>
               </div>
 

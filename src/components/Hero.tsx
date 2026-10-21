@@ -264,11 +264,18 @@ export const Hero: React.FC<HeroProps> = ({
               
               {/* Card Header */}
               <div className="flex items-center justify-between border-b border-[#DBEAFE] pb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-rose-500" />
-                  <div className="w-3 h-3 rounded-full bg-amber-500" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="text-xs font-bold text-[#0F172A] mr-2">منصة رقيب المركزية</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-sm shrink-0">
+                    <img 
+                      src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
+                      alt="لوجو رقيب" 
+                      className="w-full h-full object-cover rounded-full bg-[#0A2351]"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-black text-[#0F172A]">{isAr ? 'منصة ومختبر رقيب الرسمي' : 'Official Raqeeb Tech Platform'}</span>
+                    <span className="text-[10px] text-[#64748B]">{isAr ? 'برمجة • تسويق • فك شفرات' : 'Programming • Marketing • Unlock'}</span>
+                  </div>
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
                   متاح 24/7 ONLINE

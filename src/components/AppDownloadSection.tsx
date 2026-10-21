@@ -86,11 +86,11 @@ export const AppDownloadSection: React.FC<AppDownloadSectionProps> = ({
               
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#DBEAFE] pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl overflow-hidden bg-white border border-[#DBEAFE] shadow-sm p-1 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-md p-0.5 flex items-center justify-center shrink-0">
                     <img 
-                      src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
+                      src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
                       alt="تطبيق رقيب" 
-                      className="w-full h-full object-contain rounded-xl"
+                      className="w-full h-full object-cover rounded-full bg-[#0A2351]"
                     />
                   </div>
                   <div>

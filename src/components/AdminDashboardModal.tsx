@@ -619,10 +619,12 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
           
           {/* Brand & Title */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6 text-cyan-400" />
-              </div>
+            <div className="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-lg shadow-amber-500/20 shrink-0">
+              <img 
+                src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
+                alt="لوجو رقيب" 
+                className="w-full h-full object-cover rounded-full bg-[#0A2351]"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">

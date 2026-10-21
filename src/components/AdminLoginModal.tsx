@@ -124,11 +124,11 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
           
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="inline-flex p-1 rounded-2xl bg-white border border-blue-400/40 shadow-xl w-16 h-16 mx-auto items-center justify-center overflow-hidden">
+            <div className="inline-flex p-0.5 rounded-full bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-xl w-16 h-16 mx-auto items-center justify-center overflow-hidden">
               <img 
-                src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
+                src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
                 alt="لوجو رقيب" 
-                className="w-full h-full object-contain rounded-xl"
+                className="w-full h-full object-cover rounded-full bg-[#0A2351]"
               />
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center justify-center gap-2">

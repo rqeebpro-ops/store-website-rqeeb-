@@ -72,11 +72,11 @@ export const AppDownloadModal: React.FC<AppDownloadModalProps> = ({
 
         {/* Modal Header */}
         <div className="flex items-start gap-3.5 pr-8">
-          <div className="w-12 h-12 rounded-2xl overflow-hidden bg-white border border-[#DBEAFE] shadow-sm p-1 shrink-0 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-md p-0.5 shrink-0 flex items-center justify-center">
             <img 
-              src="/assets/aistudio/file_000000003a1482119a5607f2945397e0_42f71af7.png" 
+              src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
               alt="تطبيق رقيب" 
-              className="w-full h-full object-contain rounded-xl"
+              className="w-full h-full object-cover rounded-full bg-[#0A2351]"
             />
           </div>
           <div className="space-y-1">

@@ -52,8 +52,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Col 1: Brand info (2 cols on lg) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-xl text-white shadow-md">
-                R
+              <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 shadow-md shadow-amber-500/20 shrink-0">
+                <img 
+                  src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" 
+                  alt={appName && isAr ? appName : t.brandName}
+                  className="w-full h-full object-cover rounded-full bg-[#0A2351]"
+                  loading="lazy"
+                />
               </div>
               <div>
                 <span className="text-xl font-black text-white">{appName && isAr ? appName : t.brandName}</span>
