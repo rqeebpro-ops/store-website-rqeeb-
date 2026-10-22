@@ -42,7 +42,7 @@ export const SocialFloatingBar: React.FC<SocialFloatingBarProps> = ({
   };
 
   return (
-    <div className={`fixed bottom-4 sm:bottom-6 ${isAr ? 'left-3 sm:left-6' : 'right-3 sm:right-6'} z-40 flex flex-col items-start gap-2.5 sm:gap-3`}>
+    <div className={`fixed bottom-20 md:bottom-6 ${isAr ? 'left-3 sm:left-6' : 'right-3 sm:right-6'} z-30 flex flex-col items-start gap-2.5 sm:gap-3`}>
       {/* Expanded quick contact popup */}
       {isOpen && (
         <div 

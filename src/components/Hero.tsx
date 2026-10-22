@@ -72,12 +72,14 @@ export const Hero: React.FC<HeroProps> = ({
     { label: 'فك أقفال الشاشة وFRP', cat: 'screen_locks' as ServiceCategory },
     { label: 'استرجاع صور وملفات محذوفة', cat: 'data_recovery' as ServiceCategory },
     { label: 'استرداد حسابات واتساب وفيسبوك', cat: 'account_recovery' as ServiceCategory },
+    { label: 'زيادة متابعين وتفاعل السوشيال', cat: 'marketing' as ServiceCategory },
     { label: 'حملات تسويق ممولة', cat: 'marketing' as ServiceCategory },
   ] : [
     { label: 'Carrier Network Unlocking', cat: 'unlocking' as ServiceCategory },
     { label: 'Screen & FRP Bypass', cat: 'screen_locks' as ServiceCategory },
     { label: 'Deleted Data & Photo Recovery', cat: 'data_recovery' as ServiceCategory },
     { label: 'Account Restoration', cat: 'account_recovery' as ServiceCategory },
+    { label: 'Followers & Engagement Growth', cat: 'marketing' as ServiceCategory },
     { label: 'Digital Ads & Marketing', cat: 'marketing' as ServiceCategory },
   ];
 

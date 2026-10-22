@@ -333,6 +333,37 @@ export const SERVICES_DATA_EN: ServiceItem[] = [
     ],
     requirements: ['Website URL or Business name'],
     features: ['Continuous zero-cost organic customer acquisition', 'Google Maps profile dominance for local clients', 'Builds long-term domain authority and brand trust']
+  },
+  {
+    id: 'social-media-followers-growth',
+    title: 'Social Media Followers & Engagement Growth (All Platforms)',
+    category: 'marketing',
+    categoryName: 'Digital Marketing & Ads',
+    shortDesc: 'High-speed, authentic followers, likes, views, and comments for Instagram, TikTok, Facebook, YouTube, Snapchat, and Telegram with guaranteed lifetime retention.',
+    fullDesc: 'Safe, premium social media growth services for business and personal profiles across all major networks. No password required (public handle or link only). Targeted Arab, GCC, and global audiences, livestream viewer boosts, Reels engagement, and free automatic refill warranty.',
+    icon: 'TrendingUp',
+    badge: 'Trending 🔥',
+    popular: true,
+    estimatedTime: 'Instant Start (within minutes)',
+    successRate: '100% Safe & Guaranteed',
+    guarantee: 'Lifetime Refill Guarantee',
+    steps: [
+      { title: 'Select Platform & Target Metric', description: 'Choose Instagram, TikTok, Facebook, YouTube, Snapchat, or Telegram (followers, likes, views).' },
+      { title: 'Specify Quantity & Audience', description: 'Define the target count with Arab, Gulf, or international engagement options.' },
+      { title: 'Provide Profile Link Only', description: 'Send public profile URL or handle (passwords are never requested).' },
+      { title: 'Immediate Safe Fulfillment', description: 'Real-time delivery starts with natural pacing aligned with platform algorithms.' }
+    ],
+    requirements: [
+      'Account or post URL only (passwords are never requested)',
+      'Account must remain public during fulfillment',
+      'Target network and quantity specified via WhatsApp'
+    ],
+    features: [
+      '100% password-free and secure',
+      'Supports all major networks: TikTok, Instagram, Facebook, YouTube, Snapchat, Telegram, X',
+      'Real active followers, likes, and impressions',
+      'Instant automated delivery with lifetime non-drop warranty'
+    ]
   }
 ];
 

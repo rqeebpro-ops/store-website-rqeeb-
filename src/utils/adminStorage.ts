@@ -577,7 +577,17 @@ export const getStoredServices = (lang: Language = 'ar'): ServiceItem[] => {
       return defaults;
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : defaults;
+    if (!Array.isArray(parsed) || parsed.length === 0) return defaults;
+    
+    // Automatically merge any newly introduced default services
+    const existingIds = new Set(parsed.map((s: ServiceItem) => s.id));
+    const missingDefaults = defaults.filter(d => !existingIds.has(d.id));
+    if (missingDefaults.length > 0) {
+      const merged = [...parsed, ...missingDefaults];
+      localStorage.setItem(`${STORAGE_KEYS.SERVICES}_${lang}`, JSON.stringify(merged));
+      return merged;
+    }
+    return parsed;
   } catch {
     return defaults;
   }

@@ -22,6 +22,7 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { SocialFloatingBar } from './components/SocialFloatingBar';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { SERVICES_DATA } from './data/servicesData';
 import { SERVICES_DATA_EN } from './data/servicesDataEn';
 import { ARTICLES_DATA_EN } from './data/articlesDataEn';
@@ -307,6 +308,16 @@ export default function App() {
         isAppUnlocked={isAppUnlocked}
         isAdminLoggedIn={isAdminLoggedIn}
         onOpenAdminDashboard={() => setIsAdminDashboardOpen(true)}
+      />
+
+      {/* Native Mobile Bottom Navigation Bar (Matching user screenshot with Home, Store, Process, Contact, and Install PWA) */}
+      <MobileBottomNav
+        lang={lang}
+        phone={PHONE_NUMBER}
+        onOpenDownloadModal={() => setIsDownloadModalOpen(true)}
+        onOpenSidebar={() => {
+          window.dispatchEvent(new CustomEvent('raqeeb:open_sidebar'));
+        }}
       />
 
       {/* Service Details & Step-by-step Modal */}

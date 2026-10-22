@@ -12,6 +12,11 @@
     <link rel="apple-touch-icon" href="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" />
     <meta property="og:image" content="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" />
     <meta name="theme-color" content="#0A2351" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="رقيب" />
+    <link rel="manifest" href="/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -19,6 +24,13 @@
   <body class="font-['Cairo','Tajawal','Almarai',sans-serif] bg-[#F8FAFF] text-[#0F172A] antialiased selection:bg-[#2563EB] selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function() {});
+        });
+      }
+    </script>
   </body>
 </html>
 

@@ -122,6 +122,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Listen for global open sidebar event (e.g. from mobile bottom nav or banners)
+  useEffect(() => {
+    const handleOpenEvent = () => setSidebarOpen(true);
+    window.addEventListener('raqeeb:open_sidebar', handleOpenEvent);
+    return () => window.removeEventListener('raqeeb:open_sidebar', handleOpenEvent);
+  }, []);
+
   // Prevent background scroll when sidebar drawer is open
   useEffect(() => {
     if (sidebarOpen) {
@@ -228,11 +235,11 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Brand Logo with 10-Clicks Secret Admin Trigger (No visible admin button!) */}
-          <div className="relative flex items-center gap-3">
+          <div className="relative flex items-center gap-2 sm:gap-3 min-w-0 shrink max-w-[200px] xs:max-w-[260px] sm:max-w-none">
             <button
               onClick={handleLogoSecretClick}
               type="button"
-              className="flex items-center gap-2.5 sm:gap-3 group text-right cursor-pointer select-none bg-transparent border-none p-0 focus:outline-none"
+              className="flex items-center gap-2 sm:gap-3 group text-right cursor-pointer select-none bg-transparent border-none p-0 focus:outline-none min-w-0"
               title={isAr ? 'شعار منصة رقيب الرسمية' : 'Raqeeb Brand Logo'}
             >
               {/* Official Gold & Navy Badge Logo */}
@@ -244,16 +251,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                   loading="eager"
                 />
               </div>
-              <div className="flex flex-col min-w-0">
+              <div className="flex flex-col min-w-0 truncate">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-base sm:text-xl lg:text-2xl font-black tracking-tight text-white group-hover:text-blue-200 transition truncate">
+                  <span className="text-sm xs:text-base sm:text-xl lg:text-2xl font-black tracking-tight text-white group-hover:text-blue-200 transition truncate">
                     {appName && isAr ? appName : t.brandName}
                   </span>
-                  <span className="text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/30 shrink-0">
+                  <span className="hidden sm:inline-block text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/30 shrink-0">
                     {t.brandBadge}
                   </span>
                 </div>
-                <span className="text-[10px] sm:text-xs text-blue-200/80 font-medium truncate hidden xs:block">
+                <span className="text-[10px] sm:text-xs text-blue-200/80 font-medium truncate hidden sm:block">
                   {appSlogan && isAr ? appSlogan : t.brandSub}
                 </span>
               </div>
@@ -387,17 +394,29 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
           </nav>
 
-          {/* Right Header Controls (Language + Download APK + Sidebar Drawer Toggle for Desktop & Mobile) */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right Header Controls (Sidebar Drawer Toggle + Language + Download APK) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 z-20">
             
+            {/* UNIFIED SIDEBAR TOGGLE BUTTON: ALWAYS PROMINENT ON MOBILE & DESKTOP! */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex items-center justify-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white border border-blue-400/40 text-xs font-bold transition cursor-pointer shadow-md shadow-blue-950/40 active:scale-95 shrink-0 min-h-[40px]"
+              title={isAr ? 'فتح القائمة الجانبية الشاملة' : 'Open Comprehensive Sidebar'}
+              aria-label="Open sidebar menu"
+              id="mobile-main-hamburger-menu"
+            >
+              <Menu className="w-5 h-5 text-white" />
+              <span className="hidden sm:inline">{isAr ? 'القائمة' : 'Menu'}</span>
+            </button>
+
             {/* Language Switcher */}
             <button
               onClick={onToggleLanguage}
-              className="px-2.5 py-1.5 rounded-xl bg-blue-900/50 hover:bg-blue-800 text-blue-200 hover:text-white border border-blue-700/50 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+              className="px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-blue-950/80 hover:bg-blue-900 text-blue-200 hover:text-white border border-blue-700/50 text-xs font-bold transition flex items-center gap-1 cursor-pointer shrink-0 min-h-[40px]"
               title="Toggle Language"
             >
               <Globe className="w-3.5 h-3.5 text-blue-300" />
-              <span>{lang === 'ar' ? 'English' : 'عربي'}</span>
+              <span className="hidden xs:inline">{lang === 'ar' ? 'English' : 'عربي'}</span>
             </button>
 
             {/* Official Android APK Download Button */}
@@ -405,7 +424,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               href={APK_DOWNLOAD_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#22C55E] hover:bg-[#16A34A] text-white text-xs font-bold shadow-md shadow-emerald-900/30 transition cursor-pointer"
+              className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#22C55E] hover:bg-[#16A34A] text-white text-xs font-bold shadow-md shadow-emerald-900/30 transition cursor-pointer shrink-0"
             >
               <Smartphone className="w-4 h-4" />
               <span>{isAr ? 'تحميل APK' : 'Download APK'}</span>
@@ -415,20 +434,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Direct Order Modal CTA */}
             <button
               onClick={() => onOpenOrderModal()}
-              className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs font-bold shadow-lg shadow-blue-500/20 transition cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs font-bold shadow-lg shadow-blue-500/20 transition cursor-pointer shrink-0"
             >
               <span>{t.requestService}</span>
-            </button>
-
-            {/* UNIFIED SIDEBAR TOGGLE BUTTON: WORKS ON MOBILE AND DESKTOP! */}
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-900/70 hover:bg-blue-800 text-white border border-blue-700/60 text-xs font-bold transition cursor-pointer shadow-sm"
-              title={isAr ? 'فتح القائمة الجانبية الشاملة' : 'Open Comprehensive Sidebar'}
-              aria-label="Open sidebar menu"
-            >
-              <Menu className="w-5 h-5 text-blue-200" />
-              <span className="hidden sm:inline">{isAr ? 'القائمة' : 'Menu'}</span>
             </button>
 
           </div>
@@ -441,17 +449,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           Contains everything EXCEPT the Control Panel!
           ========================================================================= */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[100] flex justify-end animate-in fade-in duration-200">
           
           {/* Backdrop overlay */}
           <div 
             onClick={() => setSidebarOpen(false)}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm cursor-pointer"
           />
 
           {/* Drawer Slide-over Panel */}
           <div 
-            className={`relative w-full max-w-md sm:max-w-lg h-full bg-[#0A2351] text-white border-l border-blue-900/50 shadow-2xl flex flex-col z-10 overflow-y-auto ${isAr ? 'text-right' : 'text-left'}`}
+            className={`relative w-[85vw] max-w-md sm:max-w-lg h-full bg-[#0A2351] text-white border-l border-blue-900/50 shadow-2xl flex flex-col z-10 overflow-y-auto ${isAr ? 'text-right' : 'text-left'}`}
             dir={isAr ? 'rtl' : 'ltr'}
           >
             {/* Drawer Header */}

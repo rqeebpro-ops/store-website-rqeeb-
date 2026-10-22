@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   Download, 
@@ -35,6 +35,37 @@ export const AppDownloadModal: React.FC<AppDownloadModalProps> = ({
 
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsInstalled(window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone);
+      setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream);
+    }
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstallPWA = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setIsInstalled(true);
+      }
+      setDeferredPrompt(null);
+    } else if (isIOS) {
+      alert(isAr ? 'لتثبيت التطبيق على الآيفون: اضغط زر المشاركة (Share ⎘) أسفل متصفح Safari، ثم اختر "إضافة إلى الشاشة الرئيسية (+ Add to Home Screen)"' : 'To install on iOS: Tap the Share button (⎘) in Safari, then select "Add to Home Screen (+)".');
+    } else {
+      alert(isAr ? 'يمكنك تثبيت التطبيق عبر قائمة المتصفح (النقاط الثلاث) -> "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"، أو حمّل نسخة APK المباشرة بالأسفل.' : 'You can install the app from your browser menu -> "Install app" / "Add to Home Screen", or download the direct APK below.');
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -112,12 +143,46 @@ export const AppDownloadModal: React.FC<AppDownloadModalProps> = ({
           </div>
         </div>
 
-        {/* Direct Download Call to Action */}
+        {/* Option 1: Direct PWA Install to Home Screen */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white shadow-lg space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Smartphone className="w-5 h-5 text-amber-300" />
+              <span className="text-xs sm:text-sm font-black">
+                {isAr ? 'الخيار الأول: تثبيت مباشر على شاشة الهاتف (تطبيق خفيف وسريع)' : 'Option 1: Direct Mobile Home Screen Install'}
+              </span>
+            </div>
+            <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-bold">
+              {isInstalled ? (isAr ? 'مثبت مسبقاً ✅' : 'Installed ✅') : (isAr ? 'فوري بنقرة واحدة' : '1-Click')}
+            </span>
+          </div>
+          <p className="text-xs text-blue-100 leading-relaxed">
+            {isAr 
+              ? 'تثبيت تطبيق رقيب كأيقونة على شاشتك الرئيسية فورياً بدون الحاجة لمتجر، تصفح كامل حتى بدون اتصال، وسرعة استجابة فائقة.' 
+              : 'Add Raqeeb as an app on your phone home screen instantly with offline support and zero storage bloat.'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={handleInstallPWA}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white hover:bg-blue-50 text-[#0A2351] font-black text-xs sm:text-sm shadow-md transition cursor-pointer active:scale-95 min-h-[44px]"
+            >
+              <Download className="w-4 h-4 text-[#2563EB]" />
+              <span>{isInstalled ? (isAr ? 'التطبيق مثبت على هاتفك بنجاح' : 'App Already Installed') : (isAr ? 'تثبيت التطبيق على هاتفي الآن 📲' : 'Install App on My Phone 📲')}</span>
+            </button>
+          </div>
+          {isIOS && (
+            <div className="text-[11px] text-amber-200 bg-black/20 p-2 rounded-lg flex items-center gap-1.5">
+              <span>💡 للآيفون: اضغط زر المشاركة (Share ⎘) في متصفح Safari ثم اختر "إضافة إلى الشاشة الرئيسية (+)".</span>
+            </div>
+          )}
+        </div>
+
+        {/* Option 2: Direct Download Call to Action (MediaFire APK) */}
         <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-blue-500/5 to-transparent border border-emerald-300 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse"></span>
-              <span className="text-xs font-bold text-[#0F172A]">{isAr ? 'رابط مباشر وسريع من MediaFire' : 'Direct Fast MediaFire Link'}</span>
+              <span className="text-xs font-bold text-[#0F172A]">{isAr ? 'الخيار الثاني: تحميل ملف APK وتثبيته يدوياً (MediaFire)' : 'Option 2: Direct MediaFire APK File Download'}</span>
             </div>
             <span className="text-[11px] font-mono font-bold text-[#64748B]">APK • ~15 MB</span>
           </div>
