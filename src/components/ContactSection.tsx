@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Language } from '../types';
 import { UI_TRANSLATIONS } from '../i18n/translations';
+import { OWNER_SOCIAL_LINKS, getSocialIconComponent } from './OwnerSocialIcons';
 
 interface ContactSectionProps {
   phone: string;
@@ -140,40 +141,64 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ phone, lang }) =
               </div>
             </div>
 
-            {/* Social Media Links Bar */}
-            <div className="p-4 rounded-2xl bg-white border border-[#DBEAFE] space-y-2 shadow-sm">
-              <div className="text-xs font-bold text-[#0F172A]">
-                {isAr ? 'حسابات التواصل الاجتماعي الرسمية لرقيب:' : 'Official Raqeeb Social Networks:'}
+            {/* Owner Official Social Media Links Bar (@rqeebpro & rqeebpro.online) */}
+            <div className="p-5 rounded-2xl bg-white border border-[#DBEAFE] space-y-3 shadow-[0_4px_20px_rgba(37,99,235,0.06)]">
+              <div className="flex items-center justify-between">
+                <div className="text-xs font-bold text-[#0F172A] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#2563EB]"></span>
+                  <span>{isAr ? 'حسابات وموقع المالك الرسمي:' : 'Official Owner Accounts:'}</span>
+                </div>
+                <span className="text-[11px] font-mono font-bold text-[#2563EB] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                  @rqeebpro
+                </span>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+
+              {/* 4 Primary Owner Channels Requested by User */}
+              <div className="grid grid-cols-2 gap-2">
+                {OWNER_SOCIAL_LINKS.map(item => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8FAFF] hover:bg-white border border-[#DBEAFE] hover:border-slate-300 transition shadow-xs text-xs font-bold text-[#0F172A] group cursor-pointer"
+                  >
+                    <span 
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0 shadow-xs"
+                      style={{ backgroundColor: item.badgeColor }}
+                    >
+                      {getSocialIconComponent(item.id, 'w-3.5 h-3.5 text-white')}
+                    </span>
+                    <div className="min-w-0">
+                      <span className="block truncate text-[11px]">{isAr ? item.name : item.nameEn}</span>
+                      <span className="block truncate text-[9px] text-[#64748B] group-hover:text-[#2563EB] font-mono" dir="ltr">
+                        {item.id === 'website' ? item.username : `@${item.username}`}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* WhatsApp & Telegram Quick Contact */}
+              <div className="flex items-center gap-2 pt-1 border-t border-slate-100">
                 <a
                   href={`https://wa.me/967${phone}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition text-xs font-bold min-h-[40px]"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition text-xs font-bold"
                 >
                   <MessageSquare className="w-3.5 h-3.5 text-[#22C55E]" />
-                  <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
+                  <span>{isAr ? 'واتساب المعتمد' : 'WhatsApp'}</span>
                 </a>
 
                 <a
                   href="https://t.me/raqeeb_tech"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 text-[#2563EB] border border-[#DBEAFE] hover:bg-blue-100 transition text-xs font-bold min-h-[40px]"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-blue-50 text-[#2563EB] border border-[#DBEAFE] hover:bg-blue-100 transition text-xs font-bold"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>{isAr ? 'تيليجرام' : 'Telegram'}</span>
-                </a>
-
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition text-xs font-bold min-h-[40px]"
-                >
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span>{isAr ? 'فيسبوك' : 'Facebook'}</span>
+                  <span>{isAr ? 'قناة تيليجرام' : 'Telegram'}</span>
                 </a>
               </div>
             </div>

@@ -17,6 +17,7 @@ import {
 import { ServiceCategory, Language } from '../types';
 import { UI_TRANSLATIONS } from '../i18n/translations';
 import { APK_DOWNLOAD_URL } from './AppDownloadModal';
+import { OwnerSocialBar, OWNER_SOCIAL_LINKS, getSocialIconComponent } from './OwnerSocialIcons';
 
 interface FooterProps {
   phone: string;
@@ -112,6 +113,37 @@ export const Footer: React.FC<FooterProps> = ({
               >
                 {isAr ? 'الباركود' : 'QR'}
               </button>
+            </div>
+
+            {/* Owner Official Social Channels (@rqeebpro & rqeebpro.online) */}
+            <div className="pt-3 border-t border-blue-900/40 space-y-2">
+              <div className="text-xs text-blue-200 font-bold flex items-center justify-between">
+                <span>{isAr ? 'حسابات وموقع المالك الرسمي:' : 'Official Owner Channels:'}</span>
+                <span className="text-[10px] text-blue-300 font-mono">@rqeebpro</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {OWNER_SOCIAL_LINKS.map(item => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`${isAr ? item.name : item.nameEn} (${item.username})`}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-blue-950/90 hover:bg-white text-blue-100 hover:text-[#0A2351] border border-blue-800/60 transition shadow-xs text-xs font-bold group cursor-pointer"
+                  >
+                    <span 
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-white shrink-0 shadow-xs"
+                      style={{ backgroundColor: item.badgeColor }}
+                    >
+                      {getSocialIconComponent(item.id, 'w-3 h-3 text-white')}
+                    </span>
+                    <span className="text-[11px]">{isAr ? item.name : item.nameEn}</span>
+                    <span className="text-[9px] text-blue-300 group-hover:text-blue-950 font-mono" dir="ltr">
+                      {item.id === 'website' ? 'rqeebpro.online' : `@${item.username}`}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 

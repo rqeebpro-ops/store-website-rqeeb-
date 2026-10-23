@@ -31,6 +31,7 @@ import { ARTICLES_DATA_EN } from '../data/articlesDataEn';
 import { UI_TRANSLATIONS } from '../i18n/translations';
 import { APK_DOWNLOAD_URL } from './AppDownloadModal';
 import { getStoredCategories, CategoryOrderItem } from '../utils/adminStorage';
+import { OwnerSocialBar, OWNER_SOCIAL_LINKS, getSocialIconComponent } from './OwnerSocialIcons';
 
 interface NavbarProps {
   activeCategory: ServiceCategory;
@@ -182,6 +183,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Quick Contact & PIN Activation Button in Ribbon */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Owner Official Social Icons (@rqeebpro & rqeebpro.online) */}
+            <div className="hidden md:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-950/60 border border-blue-800/40">
+              <span className="text-[10px] text-blue-300 font-semibold">{isAr ? 'حسابات المالك:' : 'Owner:'}</span>
+              <OwnerSocialBar layout="ribbon" lang={lang} />
+            </div>
+
             {/* Phone Number */}
             <div className="hidden sm:flex items-center gap-1.5 bg-blue-950/80 px-2.5 py-0.5 rounded-full border border-blue-800/40">
               <Phone className="w-3 h-3 text-[#3B82F6]" />
@@ -517,6 +524,41 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <MessageSquare className="w-3.5 h-3.5" />
                     <span>{t.whatsapp}</span>
                   </a>
+                </div>
+              </div>
+
+              {/* Owner Official Social Channels (@rqeebpro & rqeebpro.online) */}
+              <div className="p-4 rounded-2xl bg-[#0e2c66] border border-blue-800/50 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+                    <span>{isAr ? 'حسابات وموقع المالك الرسمي' : 'Official Owner Channels'}</span>
+                  </div>
+                  <span className="text-[10px] text-blue-300 font-mono font-bold">@rqeebpro</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {OWNER_SOCIAL_LINKS.map(item => (
+                    <a
+                      key={item.id}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-2 rounded-xl bg-[#0A2351] hover:bg-blue-900/80 border border-blue-800/50 text-white transition text-xs font-bold"
+                    >
+                      <span 
+                        className="w-6 h-6 rounded-lg flex items-center justify-center text-white shrink-0 shadow-xs"
+                        style={{ backgroundColor: item.badgeColor }}
+                      >
+                        {getSocialIconComponent(item.id, 'w-3.5 h-3.5 text-white')}
+                      </span>
+                      <div className="min-w-0">
+                        <span className="block truncate text-[11px]">{isAr ? item.name : item.nameEn}</span>
+                        <span className="block truncate text-[9px] text-blue-300 font-mono" dir="ltr">
+                          {item.id === 'website' ? item.username : `@${item.username}`}
+                        </span>
+                      </div>
+                    </a>
+                  ))}
                 </div>
               </div>
 

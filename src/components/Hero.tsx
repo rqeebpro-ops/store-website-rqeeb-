@@ -24,6 +24,7 @@ import {
 import { ServiceCategory, Language } from '../types';
 import { UI_TRANSLATIONS } from '../i18n/translations';
 import { APK_DOWNLOAD_URL } from './AppDownloadModal';
+import { OwnerSocialBar } from './OwnerSocialIcons';
 
 interface HeroProps {
   phone: string;
@@ -256,6 +257,22 @@ export const Hero: React.FC<HeroProps> = ({
                   {isAr ? 'خطوات التثبيت والباركود' : 'Install Guide & QR'}
                 </button>
               )}
+            </div>
+
+            {/* Owner Official Social Channels Strip (@rqeebpro & rqeebpro.online) */}
+            <div className="pt-2">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-xs border border-[#DBEAFE] shadow-xs space-y-2.5">
+                <div className="flex items-center justify-between text-xs">
+                  <div className="font-bold text-[#0F172A] flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse"></span>
+                    <span>{isAr ? 'حسابات وموقع المالك الرسمي:' : 'Official Owner Channels:'}</span>
+                  </div>
+                  <span className="text-[11px] font-mono font-bold text-[#2563EB] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200" dir="ltr">
+                    @rqeebpro
+                  </span>
+                </div>
+                <OwnerSocialBar layout="chips" lang={lang} />
+              </div>
             </div>
 
           </div>

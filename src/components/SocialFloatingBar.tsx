@@ -14,6 +14,7 @@ import {
 import { Language } from '../types';
 import { UI_TRANSLATIONS } from '../i18n/translations';
 import { APK_DOWNLOAD_URL } from './AppDownloadModal';
+import { OWNER_SOCIAL_LINKS, getSocialIconComponent } from './OwnerSocialIcons';
 
 interface SocialFloatingBarProps {
   phone: string;
@@ -125,6 +126,33 @@ export const SocialFloatingBar: React.FC<SocialFloatingBarProps> = ({
               <MessageSquare className="w-4 h-4" />
               <span>{isAr ? 'محادثة واتساب سريعة' : 'Instant WhatsApp Chat'}</span>
             </a>
+
+            {/* Owner Official Social Channels (@rqeebpro & rqeebpro.online) */}
+            <div className="pt-2 border-t border-[#DBEAFE] space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-bold text-[#0F172A]">
+                <span>{isAr ? 'حسابات وموقع المالك:' : 'Owner Channels:'}</span>
+                <span className="font-mono text-[10px] text-[#2563EB]">@rqeebpro</span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                {OWNER_SOCIAL_LINKS.map(item => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1.5 p-1.5 rounded-lg bg-[#F8FAFF] hover:bg-white border border-[#DBEAFE] text-[#0F172A] hover:text-[#2563EB] transition font-bold text-[11px]"
+                  >
+                    <span 
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-white shrink-0 shadow-xs"
+                      style={{ backgroundColor: item.badgeColor }}
+                    >
+                      {getSocialIconComponent(item.id, 'w-3 h-3 text-white')}
+                    </span>
+                    <span className="truncate">{isAr ? item.name : item.nameEn}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
 
             <a
               href="https://t.me/raqeeb_tech"
