@@ -122,12 +122,48 @@
     </script>
   </head>
   <body class="font-['Cairo','Tajawal','Almarai',sans-serif] bg-[#F8FAFF] text-[#0F172A] antialiased selection:bg-[#2563EB] selection:text-white">
-    <div id="root"></div>
+    <div id="root">
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #071838 0%, #0A2351 50%, #0F2D5C 100%); color: #ffffff; font-family: 'Cairo', 'Tajawal', sans-serif; text-align: center; padding: 20px;">
+        <div style="width: 88px; height: 88px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #F59E0B, #FBBF24); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; animation: pulse 2s infinite ease-in-out;">
+          <img src="/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png" alt="رقيب برو" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; background: #0A2351;" />
+        </div>
+        <h1 style="font-size: 24px; font-weight: 900; margin: 0 0 8px 0; color: #ffffff; letter-spacing: -0.5px;">رقيب برو • Rqeeb Pro</h1>
+        <p style="font-size: 13px; color: #93C5FD; margin: 0 0 24px 0; max-width: 320px; line-height: 1.6;">المركز المعتمد الأول لخدمات البرمجة، فك الشفرات والتسويق الرقمي</p>
+        <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 9999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px);">
+          <div style="width: 16px; height: 16px; border: 2px solid #38BDF8; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+          <span style="font-size: 12px; font-weight: 700; color: #E0F2FE;">جاري التحميل...</span>
+        </div>
+      </div>
+      <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
+      // Automatic update handling for Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js').catch(function() {});
+          navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            reg.addEventListener('updatefound', function() {
+              var newWorker = reg.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', function() {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  }
+                });
+              }
+            });
+          }).catch(function() {});
+        });
+
+        var refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
         });
       }
     </script>

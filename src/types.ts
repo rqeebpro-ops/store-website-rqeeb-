@@ -53,6 +53,8 @@ export interface ArticleItem {
     body: string;
   }[];
   warningNote?: string;
+  warning?: string;
+  tip?: string;
 }
 
 export interface TestimonialItem {
