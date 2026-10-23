@@ -11,7 +11,12 @@ import {
   Layers, 
   ExternalLink,
   Flame,
-  KeyRound
+  KeyRound,
+  Info,
+  X,
+  Copy,
+  Check,
+  Share2
 } from 'lucide-react';
 import { ApkItem, Language, ApkCategory } from '../types';
 import { getStoredApks, incrementApkDownloads } from '../utils/adminStorage';
@@ -32,6 +37,8 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
   const [apks, setApks] = useState<ApkItem[]>([]);
   const [activeFilter, setActiveFilter] = useState<'all' | 'apps' | 'games' | 'tools'>('all');
   const [search, setSearch] = useState('');
+  const [selectedApk, setSelectedApk] = useState<ApkItem | null>(null);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const loadApks = () => {
     setApks(getStoredApks());
@@ -47,6 +54,12 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
   const handleDownloadClick = (item: ApkItem) => {
     incrementApkDownloads(item.id);
     loadApks();
+  };
+
+  const handleCopyLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   const filteredApks = apks.filter(apk => {
@@ -81,8 +94,8 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
 
           <p className="text-xs sm:text-base text-[#64748B] leading-relaxed">
             {isAr 
-              ? 'تطبيقات فك الشفرات، أدوات الصيانة واسترداد الملفات، بالإضافة لألعاب الأندرويد الحصرية والمفحوصة أمنياً بنسبة 100%.' 
-              : 'Download carrier unlocking tools, data recovery utilities, and exclusive tested Android games safely.'}
+              ? 'تطبيقات فك الشفرات، البرمجة، التعليم الثانوي، إدارة المعلمين، وحجوزات السفر، بالإضافة لأدوات الصيانة المفحوصة أمنياً بنسبة 100% بروابط تحميل سريعة ومباشرة.' 
+              : 'Download carrier unlocking tools, secondary education apps, teacher assistants, and travel agency apps safely with fast direct links.'}
           </p>
         </div>
 
@@ -111,7 +124,19 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
               }`}
             >
               <Smartphone className="w-3.5 h-3.5 text-[#3B82F6]" />
-              <span>{isAr ? 'التطبيقات' : 'Apps'}</span>
+              <span>{isAr ? 'التطبيقات الأساسية' : 'Apps'}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveFilter('tools')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition shrink-0 cursor-pointer ${
+                activeFilter === 'tools'
+                  ? 'bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white shadow-md shadow-blue-500/25'
+                  : 'bg-[#F8FAFF] text-[#0F172A] hover:bg-blue-50 border border-[#DBEAFE]'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5 text-[#3B82F6]" />
+              <span>{isAr ? 'أدوات ومساعد المعلم' : 'Tools'}</span>
             </button>
 
             <button
@@ -125,18 +150,6 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
               <Gamepad2 className="w-3.5 h-3.5 text-[#3B82F6]" />
               <span>{isAr ? 'الألعاب (APK Games)' : 'Games'}</span>
             </button>
-
-            <button
-              onClick={() => setActiveFilter('tools')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition shrink-0 cursor-pointer ${
-                activeFilter === 'tools'
-                  ? 'bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white shadow-md shadow-blue-500/25'
-                  : 'bg-[#F8FAFF] text-[#0F172A] hover:bg-blue-50 border border-[#DBEAFE]'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5 text-[#3B82F6]" />
-              <span>{isAr ? 'أدوات الصيانة' : 'Tools'}</span>
-            </button>
           </div>
 
           {/* Search Bar */}
@@ -145,7 +158,7 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={isAr ? 'ابحث عن تطبيق أو لعبة...' : 'Search apps or games...'}
+              placeholder={isAr ? 'ابحث عن تطبيق أو خدمة...' : 'Search apps or tools...'}
               className="w-full bg-[#F8FAFF] border border-[#DBEAFE] focus:border-[#2563EB] rounded-xl px-4 py-2.5 text-xs sm:text-sm text-[#0F172A] placeholder-[#64748B] pr-10 focus:outline-none"
             />
             <Search className="w-4 h-4 text-[#3B82F6] absolute right-3.5 top-3" />
@@ -165,11 +178,21 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
                   
                   {/* Top Bar: Icon + Title + Version Badge */}
                   <div className="flex items-start gap-4">
-                    <img 
-                      src={apk.icon} 
-                      alt={apk.title} 
-                      className="w-16 h-16 rounded-2xl object-cover border border-[#DBEAFE] bg-blue-50 shadow-md group-hover:scale-105 transition shrink-0" 
-                    />
+                    <div 
+                      onClick={() => setSelectedApk(apk)}
+                      className="cursor-pointer relative shrink-0"
+                    >
+                      <img 
+                        src={apk.icon} 
+                        alt={apk.title} 
+                        className="w-16 h-16 rounded-2xl object-cover border border-[#DBEAFE] bg-blue-50 shadow-md group-hover:scale-105 transition" 
+                      />
+                      {apk.isFeatured && (
+                        <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white p-1 rounded-full shadow-sm text-[9px]">
+                          <Flame className="w-2.5 h-2.5 fill-white" />
+                        </span>
+                      )}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 border border-[#DBEAFE] text-[#2563EB]">
@@ -179,7 +202,11 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
                           {apk.version}
                         </span>
                       </div>
-                      <h3 className="text-base font-bold text-[#0F172A] group-hover:text-[#2563EB] transition line-clamp-1">
+                      <h3 
+                        onClick={() => setSelectedApk(apk)}
+                        className="text-base font-bold text-[#0F172A] group-hover:text-[#2563EB] transition line-clamp-1 cursor-pointer"
+                        title={apk.title}
+                      >
                         {apk.title}
                       </h3>
                       <div className="flex items-center gap-2 text-xs text-[#64748B] mt-1">
@@ -196,7 +223,7 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs sm:text-sm text-[#64748B] line-clamp-2 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#475569] line-clamp-3 leading-relaxed">
                     {apk.description}
                   </p>
 
@@ -215,21 +242,24 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
                 </div>
 
                 {/* Bottom Download & Info Actions */}
-                <div className="pt-4 mt-4 border-t border-[#DBEAFE] flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1.5 text-[11px] text-[#22C55E] font-bold">
-                    <ShieldCheck className="w-4 h-4 text-[#22C55E] shrink-0" />
-                    <span>{isAr ? 'آمن ومفحوص 100%' : '100% Safe APK'}</span>
-                  </div>
+                <div className="pt-4 mt-4 border-t border-[#DBEAFE] flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => setSelectedApk(apk)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F8FAFF] hover:bg-blue-50 text-[#2563EB] text-xs font-bold border border-[#DBEAFE] transition cursor-pointer"
+                  >
+                    <Info className="w-3.5 h-3.5" />
+                    <span>{isAr ? 'التفاصيل' : 'Details'}</span>
+                  </button>
 
                   <a
                     href={apk.downloadUrl}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => handleDownloadClick(apk)}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/20 transition cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#1D4ED8] hover:to-[#1E40AF] text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/20 transition cursor-pointer"
                   >
                     <Download className="w-4 h-4" />
-                    <span>{isAr ? 'تحميل APK' : 'Download APK'}</span>
+                    <span>{isAr ? 'تحميل مباشر' : 'Download APK'}</span>
                   </a>
                 </div>
 
@@ -275,6 +305,135 @@ export const ApkStoreSection: React.FC<ApkStoreSectionProps> = ({
         )}
 
       </div>
+
+      {/* APK Full Details Modal */}
+      {selectedApk && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div 
+            className="bg-white rounded-3xl border border-[#DBEAFE] shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto no-scrollbar relative p-6 sm:p-8"
+            dir={isAr ? 'rtl' : 'ltr'}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedApk(null)}
+              className="absolute top-5 left-5 sm:left-6 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-start gap-4 mb-6">
+              <img 
+                src={selectedApk.icon} 
+                alt={selectedApk.title} 
+                className="w-20 h-20 rounded-2xl object-cover border border-[#DBEAFE] shadow-lg shrink-0" 
+              />
+              <div className="space-y-1.5 flex-1 pr-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-50 border border-[#DBEAFE] text-[#2563EB]">
+                    {selectedApk.categoryName}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-[#22C55E] bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                    {selectedApk.version}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
+                    {selectedApk.packageType?.toUpperCase() || 'APK'}
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-black text-[#0F172A] leading-tight">
+                  {selectedApk.title}
+                </h3>
+                <div className="flex items-center gap-3 text-xs text-[#64748B]">
+                  <span>📦 {selectedApk.size}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 text-amber-500 font-bold">
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <span>{selectedApk.rating}</span>
+                  </span>
+                  <span>•</span>
+                  <span>⬇️ {selectedApk.downloadsCount.toLocaleString()} {isAr ? 'تحميل' : 'dl'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Safety Verification Badge */}
+            <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold mb-6">
+              <ShieldCheck className="w-4 h-4 text-[#22C55E] shrink-0" />
+              <span>{isAr ? 'تم فحص ملف الـ APK والتحقق من سلامته وخلوه من أي برمجيات ضارة 100%' : '100% Virus-Free & Safe APK Certified'}</span>
+            </div>
+
+            {/* Description Section */}
+            <div className="space-y-2 mb-6">
+              <h4 className="text-sm font-bold text-[#0F172A] flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#2563EB]" />
+                <span>{isAr ? 'وصف التطبيق' : 'Application Description'}</span>
+              </h4>
+              <p className="text-xs sm:text-sm text-[#475569] leading-relaxed bg-[#F8FAFF] p-4 rounded-2xl border border-[#DBEAFE]">
+                {selectedApk.description}
+              </p>
+            </div>
+
+            {/* Features List */}
+            {selectedApk.features && selectedApk.features.length > 0 && (
+              <div className="space-y-2.5 mb-6">
+                <h4 className="text-sm font-bold text-[#0F172A]">
+                  {isAr ? 'أهم المميزات والخصائص:' : 'Key Features:'}
+                </h4>
+                <div className="space-y-2">
+                  {selectedApk.features.map((feat, i) => (
+                    <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#334155] bg-white p-2.5 rounded-xl border border-slate-100 shadow-xs">
+                      <CheckCircle2 className="w-4 h-4 text-[#22C55E] shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Direct Download Actions */}
+            <div className="space-y-3 pt-2 border-t border-[#DBEAFE]">
+              <a
+                href={selectedApk.downloadUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => handleDownloadClick(selectedApk)}
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#15803D] text-white font-black text-sm sm:text-base shadow-lg shadow-emerald-500/25 transition cursor-pointer"
+              >
+                <Download className="w-5 h-5" />
+                <span>{isAr ? 'تحميل ملف APK الآن (سيرفر مباشر)' : 'Download APK Now (Direct Server)'}</span>
+                <ExternalLink className="w-4 h-4 opacity-75" />
+              </a>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleCopyLink(selectedApk.downloadUrl)}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#F8FAFF] hover:bg-blue-50 text-[#0F172A] text-xs font-bold border border-[#DBEAFE] transition cursor-pointer"
+                >
+                  {copiedLink ? (
+                    <>
+                      <Check className="w-4 h-4 text-[#22C55E]" />
+                      <span className="text-[#22C55E]">{isAr ? 'تم نسخ الرابط!' : 'Link Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 text-[#2563EB]" />
+                      <span>{isAr ? 'نسخ رابط التحميل' : 'Copy Download Link'}</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setSelectedApk(null)}
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer"
+                >
+                  {isAr ? 'إغلاق' : 'Close'}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </section>
   );

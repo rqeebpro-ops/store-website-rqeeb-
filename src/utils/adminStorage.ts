@@ -134,50 +134,108 @@ export const DEFAULT_THEME: ThemeSettings = THEME_PRESETS['royal-navy'].theme;
 // Initial Seed APKs (Apps and Games)
 export const INITIAL_APKS: ApkItem[] = [
   {
-    id: 'raqeeb-pro-app',
-    title: 'تطبيق رقيب الذكي للخدمات والإنقاذ (Raqeeb Pro)',
+    id: 'raqeeb-mobile-app',
+    title: 'تطبيق رقيب للهواتف (Raqeeb Mobile)',
     category: 'apps',
-    categoryName: 'تطبيقات الأندرويد الأساسية',
+    categoryName: 'برمجة وصيانة الهواتف',
     version: 'v2.2',
-    size: '14.8 MB',
-    downloadUrl: APK_DOWNLOAD_URL,
-    icon: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?w=300&q=80',
+    size: '15.4 MB',
+    downloadUrl: 'https://www.mediafire.com/file/5spwhlkd9e2yxy9/raqeeb-v2.2.apk/file',
+    icon: '/assets/aistudio/IMG_20260914_161520_ec3c04e4.jpg',
     screenshots: [
-      'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?w=600&q=80',
-      'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80'
+      '/assets/aistudio/IMG_20260914_161520_ec3c04e4.jpg',
+      '/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png'
     ],
-    description: 'تطبيق رقيب الرسمي للوصول المباشر إلى خدمات فك الشفرات، استرداد البيانات، حماية الهواتف وإدارتها بأعلى درجات الأمان.',
+    description: 'تطبيق رقيب الرسمي للهواتف الذكية المتخصص في صيانة وبرمجة الأجهزة، فك شفرات الشبكات المحلية والدولية (يمن موبايل، سبأفون، يو، فرايزون، AT&T)، تخطي حسابات جوجل (FRP) وإقفال الشاشة، إصلاح السوفت وير وتنزيل الرومات الرسمية، استرداد البيانات والملفات ومحادثات واتساب التالفة، وإدارة خدمات التسويق الرقمي وزيادة المتابعين بأمان وموثوقية عالية.',
     features: [
-      'طلب فوري لخدمات فك الشفرات والحسابات',
-      'تشفير اتصالات وفحص أمني للجهاز',
-      'إشعارات بحالة الطلبات ورموز التفعيل (PIN)',
-      'دعم كامل لنظام أندرويد 8 إلى أندرويد 15'
+      'فك شفرات وتفعيل شبكات CDMA و GSM لجميع الهواتف بضغطة زر',
+      'تخطي حسابات جوجل (FRP) وقفل الشاشة والنمط بدون فقدان البيانات إن أمكن',
+      'إصلاح السوفت وير والتعليق على الشعار وتثبيت الرومات وتخطي الثغرات',
+      'استرداد الصور ومقاطع الفيديو والملفات ومحادثات واتساب التالفة',
+      'خدمات التسويق الرقمي المباشر وزيادة المتابعين وإدارة الحملات الإعلانية'
     ],
-    downloadsCount: 12450,
+    downloadsCount: 14200,
     rating: 4.9,
     isFeatured: true,
-    dateAdded: '2026-09-15',
+    dateAdded: '2026-10-20',
     packageType: 'apk'
   },
   {
-    id: 'raqeeb-unlocker-tool',
-    title: 'أداة رقيب لفحص وتخطي الحسابات (Raqeeb Unlocker)',
-    category: 'tools',
-    categoryName: 'أدوات الصيانة والبرمجة',
-    version: 'v1.4',
-    size: '28.5 MB',
-    downloadUrl: 'https://www.mediafire.com/file/5spwhlkd9e2yxy9/raqeeb-v2.2.apk/file',
-    icon: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=300&q=80',
-    description: 'أداة مساعدة للفحص السريع لمنافذ USB ووضع Fastboot/EDL لتجهيز الهاتف لعمليات فك الشفرات واسترداد الأجهزة.',
-    features: [
-      'فحص وضع تصحيح الأخطاء USB Debugging',
-      'قراءة معلومات المعالج ونوع التشفير',
-      'تحقق من حالة Knox وبوت لودر الجهاز'
+    id: 'raqeeb-secondary-education',
+    title: 'تطبيق رقيب للتعليم الثانوي',
+    category: 'apps',
+    categoryName: 'تطبيقات تعليمية لطلاب الثانوي',
+    version: 'v1.8',
+    size: '22.3 MB',
+    downloadUrl: 'https://www.mediafire.com/file/hateydm3wivolu9/rqeeb.3secondary.apk/file',
+    icon: '/assets/aistudio/file_000000007cf4821197efb20b8d7b0701_8d345261.png',
+    screenshots: [
+      '/assets/aistudio/file_000000007cf4821197efb20b8d7b0701_8d345261.png'
     ],
-    downloadsCount: 8920,
+    description: 'المنصة التعليمية المتكاملة لطلاب وطالبات الشهادة الثانوية العامة (القسم العلمي والأدبي) تحت شعار «افهم • حل • اختبر • تفوق». يقدم التطبيق بنك أسئلة وزارية شامل لجميع المواد، نماذج امتحانات وزارية مؤتمتة للأعوام السابقة، ملخصات مركزة وشروحات مبسطة لأصعب المفاهيم، واختبارات تجريبية تفاعلية تحاكي بيئة الاختبار الوزاري الحقيقي وتعمل بدون إنترنت.',
+    features: [
+      'بنك أسئلة وزاري شامل ومحدث مصنف حسب المواد والوحدات والدروس',
+      'اختبارات تجريبية مؤقتة تحاكي الاختبارات الوزارية المؤتمتة بدقة',
+      'تصحيح آلي فوري للامتحانات مع إظهار النتيجة والإجابات النموذجية والشرح',
+      'ملخصات مركزة وشروحات وافية للقوانين والمفاهيم والنظريات المعقدة',
+      'يعمل بدون الحاجة للاتصال بالإنترنت (Offline Mode) لتوفير مذاكرة متواصلة'
+    ],
+    downloadsCount: 9850,
+    rating: 4.9,
+    isFeatured: true,
+    dateAdded: '2026-10-18',
+    packageType: 'apk'
+  },
+  {
+    id: 'raqeeb-smart-teacher-assistant',
+    title: 'تطبيق رقيب مساعد المعلم الذكي',
+    category: 'tools',
+    categoryName: 'أدوات المعلمين والتعليم الذكي',
+    version: 'v2.0',
+    size: '18.6 MB',
+    downloadUrl: 'https://www.mediafire.com/file/7frk82vb4ouj066/rqeeb.teacher.smart.apk/file',
+    icon: '/assets/aistudio/file_0000000029c481f48a5065871c2ddba4_3a979215.png',
+    screenshots: [
+      '/assets/aistudio/file_0000000029c481f48a5065871c2ddba4_3a979215.png'
+    ],
+    description: 'المساعد الرقمي المبتكر والشامل للمعلمين والمعلمات لتيسير وإدارة العملية التعليمية بأحدث الأساليب الذكية. يتيح التطبيق تحضير الدروس إلكترونياً، توليد نماذج الاختبارات وبنوك الأسئلة تلقائياً بنماذج متعددة مع مفاتيح الإجابة، رصد درجات الطلاب وحساب المعدلات والنسب المئوية، ومتابعة الحضور والغياب مع تصدير تقارير PDF جاهزة للطباعة.',
+    features: [
+      'تحضير الدروس التلقائي ونماذج خطط دراسية أسبوعية وفصلية معتمدة',
+      'توليد اختبارات بنماذج متعددة تلقائياً مع نماذج الإجابة وموازين الدرجات',
+      'كشوف رصد إلكترونية وحساب تلقائي لدرجات ومعدلات والنسب المئوية للطلاب',
+      'رصد الحضور والغياب وتتبع المشاركة الصفية والملاحظات السلوكية بسهولة',
+      'تصدير التقارير الإحصائية والشهادات بصيغة PDF وطباعتها ومشاركتها فوراً'
+    ],
+    downloadsCount: 7600,
     rating: 4.8,
     isFeatured: true,
-    dateAdded: '2026-08-20',
+    dateAdded: '2026-10-15',
+    packageType: 'apk'
+  },
+  {
+    id: 'shaujin-travel-agency',
+    title: 'تطبيق شجين وكاله سفريات',
+    category: 'apps',
+    categoryName: 'حجوزات السفر والسياحة',
+    version: 'v1.5',
+    size: '16.2 MB',
+    downloadUrl: 'https://www.mediafire.com/file/g7b4swh1qp2n3ie/ShaujinTravelAgency.apk/file',
+    icon: '/assets/aistudio/IMG_20260927_171456_fd248bb9.jpg',
+    screenshots: [
+      '/assets/aistudio/IMG_20260927_171456_fd248bb9.jpg'
+    ],
+    description: 'التطبيق الرسمي لوكالة شجين للسفريات والسياحة وخدمات الحج والعمرة. يوفر للمسافرين تجربة حجز سلسة تشمل البحث عن أفضل أسعار تذاكر الطيران على جميع الخطوط العالمية، حجز الرحلات البرية والبحرية، استخراج وتخليص التأشيرات السياحية والتجارية والإقامات، وتنظيم برامج العمرة الفاخرة والاقتصادية مع متابعة لحظية للحجوزات ودعم فني متاح 24/7.',
+    features: [
+      'حجز ومقارنة أسعار تذاكر الطيران لأكثر من 500 شركة طيران دولية ومحلية',
+      'خدمات وبرامج الحج والعمرة المتكاملة (حجوزات فنادق مكة والمدينة والنقل)',
+      'تخليص وتسهيل التأشيرات السياحية وتأشيرات العمل والزيارات العائلية',
+      'حجز رحلات النقل البري الدولي والداخلي بأحدث أساطيل الحافلات',
+      'دعم واستشارات السفر المباشرة مع موظفي الوكالة على مدار 24 ساعة'
+    ],
+    downloadsCount: 5900,
+    rating: 4.8,
+    isFeatured: true,
+    dateAdded: '2026-10-12',
     packageType: 'apk'
   },
   {
@@ -198,8 +256,29 @@ export const INITIAL_APKS: ApkItem[] = [
     ],
     downloadsCount: 6430,
     rating: 4.7,
-    isFeatured: true,
+    isFeatured: false,
     dateAdded: '2026-09-01',
+    packageType: 'apk'
+  },
+  {
+    id: 'raqeeb-unlocker-tool',
+    title: 'أداة رقيب لفحص وتخطي الحسابات (Raqeeb Unlocker)',
+    category: 'tools',
+    categoryName: 'أدوات الصيانة والبرمجة',
+    version: 'v1.4',
+    size: '28.5 MB',
+    downloadUrl: 'https://www.mediafire.com/file/5spwhlkd9e2yxy9/raqeeb-v2.2.apk/file',
+    icon: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=300&q=80',
+    description: 'أداة مساعدة للفحص السريع لمنافذ USB ووضع Fastboot/EDL لتجهيز الهاتف لعمليات فك الشفرات واسترداد الأجهزة.',
+    features: [
+      'فحص وضع تصحيح الأخطاء USB Debugging',
+      'قراءة معلومات المعالج ونوع التشفير',
+      'تحقق من حالة Knox وبوت لودر الجهاز'
+    ],
+    downloadsCount: 8920,
+    rating: 4.8,
+    isFeatured: false,
+    dateAdded: '2026-08-20',
     packageType: 'apk'
   },
   {
@@ -472,7 +551,37 @@ export const getStoredApks = (): ApkItem[] => {
       return INITIAL_APKS;
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_APKS;
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem(STORAGE_KEYS.APKS, JSON.stringify(INITIAL_APKS));
+      return INITIAL_APKS;
+    }
+
+    // Required priority IDs in exact order requested by the user
+    const priorityIds = [
+      'raqeeb-mobile-app',
+      'raqeeb-secondary-education',
+      'raqeeb-smart-teacher-assistant',
+      'shaujin-travel-agency'
+    ];
+
+    // Check if the current cached list already begins with these 4 IDs in order
+    const isFirstFourMatching = priorityIds.every((id, idx) => parsed[idx]?.id === id);
+
+    if (!isFirstFourMatching) {
+      // Re-order and merge: place the 4 required apps at the top with their seed assets and links
+      const topApps = priorityIds.map(id => {
+        const seed = INITIAL_APKS.find(a => a.id === id);
+        const existing = parsed.find((a: ApkItem) => a.id === id);
+        return existing ? { ...seed, ...existing, icon: seed?.icon || existing.icon, downloadUrl: seed?.downloadUrl || existing.downloadUrl } : seed!;
+      }).filter(Boolean) as ApkItem[];
+
+      const remainingApps = parsed.filter((a: ApkItem) => !priorityIds.includes(a.id) && a.id !== 'raqeeb-pro-app');
+      const merged = [...topApps, ...remainingApps];
+      localStorage.setItem(STORAGE_KEYS.APKS, JSON.stringify(merged));
+      return merged;
+    }
+
+    return parsed;
   } catch {
     return INITIAL_APKS;
   }
