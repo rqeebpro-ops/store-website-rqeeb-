@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- الصفحة الرئيسية | Home Page -->
+  <url>
+    <loc>https://rqeebpro.store/</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/" />
+    <image:image>
+      <image:loc>https://rqeebpro.store/assets/aistudio/Rqeeb_unified_icons_gold_b927d66b.png</image:loc>
+      <image:title>شعار منصة رقيب برو الرسمي - Rqeeb Pro</image:title>
+      <image:caption>المركز المعتمد الأول لخدمات البرمجة وفك الشفرات واسترجاع البيانات والتسويق الرقمي</image:caption>
+    </image:image>
+  </url>
+
+  <!-- قسم خدمات البرمجة وفك الشفرات | Services Section -->
+  <url>
+    <loc>https://rqeebpro.store/#services-section</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#services-section" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#services-section" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#services-section" />
+  </url>
+
+  <!-- متجر تطبيقات وألعاب رقيب APK | APK Store Section -->
+  <url>
+    <loc>https://rqeebpro.store/#apk-store-section</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#apk-store-section" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#apk-store-section" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#apk-store-section" />
+    <image:image>
+      <image:loc>https://rqeebpro.store/assets/aistudio/IMG_20260914_161520_ec3c04e4.jpg</image:loc>
+      <image:title>تطبيق رقيب للهواتف Raqeeb Mobile APK</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://rqeebpro.store/assets/aistudio/file_000000007cf4821197efb20b8d7b0701_8d345261.png</image:loc>
+      <image:title>تطبيق رقيب للتعليم الثانوي 3Secondary APK</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://rqeebpro.store/assets/aistudio/file_0000000029c481f48a5065871c2ddba4_3a979215.png</image:loc>
+      <image:title>تطبيق رقيب مساعد المعلم الذكي Teacher Assistant APK</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://rqeebpro.store/assets/aistudio/IMG_20260927_171456_fd248bb9.jpg</image:loc>
+      <image:title>تطبيق شجين وكالة سفريات وحجوزات طيران APK</image:title>
+    </image:image>
+  </url>
+
+  <!-- تحميل تطبيق الأندرويد الرسمي | Official App Download -->
+  <url>
+    <loc>https://rqeebpro.store/#download-app</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#download-app" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#download-app" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#download-app" />
+  </url>
+
+  <!-- كيف نعمل وخطوات التنفيذ | How It Works Workflow -->
+  <url>
+    <loc>https://rqeebpro.store/#how-it-works</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#how-it-works" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#how-it-works" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#how-it-works" />
+  </url>
+
+  <!-- المقالات والشروحات التقنية | Technical Articles & Step Guides -->
+  <url>
+    <loc>https://rqeebpro.store/#articles-section</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#articles-section" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#articles-section" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#articles-section" />
+  </url>
+
+  <!-- آراء وتقييمات العملاء | Customer Testimonials -->
+  <url>
+    <loc>https://rqeebpro.store/#testimonials</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#testimonials" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#testimonials" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#testimonials" />
+  </url>
+
+  <!-- التواصل المباشر والاستشارات | Contact Section -->
+  <url>
+    <loc>https://rqeebpro.store/#contact-section</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://rqeebpro.store/#contact-section" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://rqeebpro.store/#contact-section" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rqeebpro.store/#contact-section" />
+  </url>
+
+</urlset>

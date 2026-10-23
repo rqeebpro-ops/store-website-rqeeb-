@@ -52,6 +52,18 @@ export default function App() {
   }, [dataVersion]);
 
   const [lang, setLang] = useState<Language>('ar');
+
+  // Synchronize document lang, dir, and title for SEO and accessibility
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    if (lang === 'ar') {
+      document.title = 'رقيب برو (Rqeeb Pro) | المركز المعتمد لخدمات البرمجة، فك الشفرات والتسويق الرقمي';
+    } else {
+      document.title = 'Rqeeb Pro | Certified Carrier Unlocking, Software & Digital Marketing Solutions';
+    }
+  }, [lang]);
+
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedServiceForDetails, setSelectedServiceForDetails] = useState<ServiceItem | null>(null);

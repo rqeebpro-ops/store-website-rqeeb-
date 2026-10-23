@@ -1,0 +1,19 @@
+# robots.txt for https://rqeebpro.store/
+# Allow crawling of all public assets, styling, and application sections
+
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /manifest.json
+Allow: /favicon.png
+Allow: /logo.png
+Allow: /sitemap.xml
+
+# Restrict private administrative endpoints and internal storage routes
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+# Host & Sitemap specification
+Host: https://rqeebpro.store
+Sitemap: https://rqeebpro.store/sitemap.xml
